@@ -34,8 +34,13 @@ a user to DesignMD MCP or another hosted capability, but the service enforces
 Free, Pro, and Builder access on the server. Repository text and client metadata
 must never be treated as an entitlement boundary.
 
-Free installation uses an individual user key. No example, fixture, generated
-artifact, or release may contain a shared key.
+Public installation instructions must use an individual user key. The hosted
+DesignMD MCP currently retains a legacy shared free-bearer compatibility path;
+this repository must neither reveal nor normalize that path. Removing or
+making that exception internal-only is a separate DesignMD runtime change and
+must be resolved before this repository publishes an installation command.
+
+No example, fixture, generated artifact, or release may contain a shared key.
 
 ## Provenance classes
 
