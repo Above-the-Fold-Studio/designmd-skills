@@ -17,6 +17,8 @@ skill's core value.
 The library starts small by design. A useful, tested skill is more valuable than
 a large prompt directory.
 
+The canonical implementation and acceptance roadmap is [docs/PLAN.md](docs/PLAN.md). Update that document when scope or release criteria change rather than creating an undocumented parallel plan.
+
 ## Access and licensing
 
 All public skills are free to read, install, adapt, and contribute to under the
@@ -48,8 +50,7 @@ for examples and [Compatibility](docs/COMPATIBILITY.md) for the difference
 between installer support and tested agent behavior.
 
 New skills should start from a concrete design problem and preserve a narrow,
-portable scope. See [Growth and contribution loop](docs/GROWTH.md) and use the
-skill-proposal issue form before adding a materially new workflow.
+portable scope. See [Growth and contribution loop](docs/GROWTH.md). Use the lightweight skill-request issue form when you have a repeated problem to solve, or the skill-proposal form when you are ready to define a new workflow in detail.
 
 Bootstrap skill packages are restricted to inert `.md`, `.json`, and `.txt`
 content. Repository checks reject symlink traversal, executable/binary payloads,
