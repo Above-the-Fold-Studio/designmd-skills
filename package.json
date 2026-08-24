@@ -1,0 +1,22 @@
+{
+  "name": "@designmd/skills-registry",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Canonical registry and validation tooling for DesignMD Skills.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "check": "npm run validate && npm run check:links && npm run scan:secrets && npm test",
+    "validate": "node scripts/validate-registry.mjs",
+    "check:links": "node scripts/check-links.mjs",
+    "scan:secrets": "node scripts/scan-secrets.mjs",
+    "test": "node --test"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "ajv": "8.18.0",
+    "ajv-formats": "3.0.1"
+  }
+}

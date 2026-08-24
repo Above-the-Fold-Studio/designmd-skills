@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://designmd.co/schemas/skill-provenance/v1.json",
+  "title": "DesignMD skill provenance",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema", "skillId", "ownershipClass", "authors", "license",
+    "upstreamSources", "adaptations", "excludedAssets", "notices",
+    "verifiedDate"
+  ],
+  "properties": {
+    "$schema": { "const": "../../schema/provenance.schema.json" },
+    "skillId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "ownershipClass": {
+      "enum": [
+        "designmd-authored",
+        "adapted-with-attribution",
+        "license-review-required",
+        "redistribution-prohibited"
+      ]
+    },
+    "authors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "format": "uri" }
+        }
+      }
+    },
+    "license": { "type": "string", "minLength": 1 },
+    "upstreamSources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "author", "repository", "path", "commitOrRelease", "license",
+          "requiredNotice"
+        ],
+        "properties": {
+          "author": { "type": "string", "minLength": 1 },
+          "repository": { "type": "string", "format": "uri" },
+          "path": { "type": "string", "minLength": 1 },
+          "commitOrRelease": { "type": "string", "minLength": 1 },
+          "license": { "type": "string", "minLength": 1 },
+          "requiredNotice": { "type": "string" }
+        }
+      }
+    },
+    "adaptations": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "excludedAssets": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "notices": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "verifiedDate": { "type": "string", "format": "date" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "ownershipClass": { "const": "adapted-with-attribution" }
+        }
+      },
+      "then": {
+        "properties": {
+          "upstreamSources": { "type": "array", "minItems": 1 },
+          "adaptations": { "type": "array", "minItems": 1 }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://designmd.co/schemas/skills-registry/v1.json",
+  "title": "DesignMD Skills registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schemaVersion", "skills", "externalEntries"],
+  "properties": {
+    "$schema": { "const": "./schema/registry.schema.json" },
+    "schemaVersion": { "const": 1 },
+    "skills": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/skill" }
+    },
+    "externalEntries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/externalEntry" }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "sha": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "relativePath": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"
+    },
+    "serviceCapability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "required", "tier", "enforcement"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "required": { "type": "boolean" },
+        "tier": {
+          "enum": ["none", "free", "pro", "builder", "caller-based"]
+        },
+        "enforcement": { "const": "server" }
+      }
+    },
+    "agentSupport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agent", "status", "verifiedVersion", "verifiedCommit", "evidence"],
+      "properties": {
+        "agent": { "enum": ["claude-code", "codex"] },
+        "status": {
+          "enum": ["planned", "experimental", "tested", "unsupported"]
+        },
+        "verifiedVersion": { "type": ["string", "null"], "minLength": 1 },
+        "verifiedCommit": { "$ref": "#/$defs/sha" },
+        "evidence": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/relativePath" }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "tested" } } },
+          "then": {
+            "properties": {
+              "verifiedVersion": { "type": "string", "minLength": 1 },
+              "verifiedCommit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+              "evidence": { "$ref": "#/$defs/relativePath" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "status": { "enum": ["planned", "unsupported"] } } },
+          "then": {
+            "properties": {
+              "verifiedVersion": { "const": null },
+              "verifiedCommit": { "const": null },
+              "evidence": { "const": null }
+            }
+          }
+        }
+      ]
+    },
+    "fixtures": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["positive", "negative"],
+      "properties": {
+        "positive": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/relativePath" }
+        },
+        "negative": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/relativePath" }
+        }
+      }
+    },
+    "skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "kind", "version", "title", "description", "category",
+        "status", "entry", "triggers", "instructionAccess",
+        "serviceCapabilities", "agents", "provenance", "fixtures",
+        "dependencies", "verifiedCommit", "lastVerified"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "kind": { "enum": ["authored", "adapted"] },
+        "version": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z.-]+)?$"
+        },
+        "title": { "type": "string", "minLength": 3 },
+        "description": { "type": "string", "minLength": 20 },
+        "category": {
+          "enum": ["routing", "design-system", "review", "extraction", "certification"]
+        },
+        "status": { "enum": ["experimental", "beta", "stable", "held"] },
+        "entry": { "$ref": "#/$defs/relativePath" },
+        "triggers": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 3 }
+        },
+        "instructionAccess": { "const": "public" },
+        "serviceCapabilities": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/serviceCapability" }
+        },
+        "agents": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "$ref": "#/$defs/agentSupport" }
+        },
+        "provenance": { "$ref": "#/$defs/relativePath" },
+        "fixtures": { "$ref": "#/$defs/fixtures" },
+        "dependencies": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "verifiedCommit": { "$ref": "#/$defs/sha" },
+        "lastVerified": {
+          "type": ["string", "null"],
+          "format": "date"
+        }
+      }
+    },
+    "externalEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "kind", "title", "description", "source", "visibility",
+        "availability", "installable", "publishedPackage", "license",
+        "lastVerified"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "kind": { "const": "curated-link" },
+        "title": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 20 },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repository", "commit"],
+          "properties": {
+            "repository": { "type": "string", "format": "uri" },
+            "commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
+          }
+        },
+        "visibility": { "enum": ["public", "private"] },
+        "availability": { "enum": ["verified", "unavailable", "unverified"] },
+        "installable": { "type": "boolean" },
+        "publishedPackage": { "type": ["string", "null"] },
+        "license": { "type": "string", "minLength": 1 },
+        "lastVerified": { "type": "string", "format": "date" }
+      }
+    }
+  }
+}

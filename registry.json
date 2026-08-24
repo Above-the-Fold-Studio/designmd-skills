@@ -1,0 +1,6 @@
+{
+  "$schema": "./schema/registry.schema.json",
+  "schemaVersion": 1,
+  "skills": [],
+  "externalEntries": []
+}

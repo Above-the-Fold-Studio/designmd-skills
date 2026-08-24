@@ -33,6 +33,17 @@ uncertain, classify the entry for review and keep it out of generated packages.
 7. Request independent review of the exact commit.
 8. Merge only after required checks and review pass.
 
+Run the complete local gate before requesting review:
+
+```sh
+npm ci --ignore-scripts
+npm run check
+```
+
+The gate compiles and applies the JSON Schemas, reconciles registry records with
+skill files and fixtures, checks Markdown links, scans credential patterns, and
+runs adversarial validator tests.
+
 A pull request must distinguish authored source, generated artifacts, and
 external links. It must state the supported agents actually tested; a directory
 shape or successful copy is not an installation test.

@@ -75,6 +75,19 @@ Generated files will be labeled and checked for drift. The root router will load
 one skill by default and no more than three unless a named workflow requires
 more.
 
+## Repository validation
+
+The bootstrap registry is intentionally empty until the initial authored skills
+arrive through reviewed pull requests. Its schemas, template, and validation
+tooling are usable now:
+
+```sh
+npm ci --ignore-scripts
+npm run check
+```
+
+This is repository validation, not a supported skill-installation command.
+
 ## Contributing
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before proposing a skill or changing a
