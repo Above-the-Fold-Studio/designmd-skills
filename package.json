@@ -11,8 +11,9 @@
     "catalog": "node scripts/generate-catalog.mjs",
     "catalog:check": "node scripts/generate-catalog.mjs --check",
     "validate": "node scripts/validate.mjs",
+    "scan:content": "node scripts/scan-content.mjs",
     "test": "node --test",
-    "check": "npm run validate && npm run catalog:check && npm test"
+    "check": "npm run validate && npm run catalog:check && npm run scan:content && npm test"
   },
   "license": "MIT",
   "devDependencies": {
