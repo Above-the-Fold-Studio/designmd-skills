@@ -89,12 +89,19 @@ export function validateEntry(entry, seen = new Set()) {
   }
   if (!Array.isArray(entry.testedAgents)) {
     errors.push(`${entry.id}: testedAgents must be an array`);
-  } else if (
-    entry.testedAgents.some(
-      (agent) => typeof agent !== "string" || agent.length === 0,
-    )
-  ) {
-    errors.push(`${entry.id}: testedAgents values must be non-empty strings`);
+  } else {
+    if (
+      entry.testedAgents.some(
+        (agent) => typeof agent !== "string" || agent.length === 0,
+      )
+    ) {
+      errors.push(`${entry.id}: testedAgents values must be non-empty strings`);
+    }
+    if (entry.status === "experimental" && entry.testedAgents.length > 0) {
+      errors.push(
+        `${entry.id}: experimental testedAgents must remain empty until compatibility evidence validation ships`,
+      );
+    }
   }
   if (
     (entry.status === "curated" || entry.status === "official") &&
