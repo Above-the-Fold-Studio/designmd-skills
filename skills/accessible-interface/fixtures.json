@@ -1,0 +1,10 @@
+{
+  "positiveRouting": [
+    "Audit this modal for keyboard, focus, screen-reader, zoom, and motion access.",
+    "Design an accessible combobox interaction and explain the test limits."
+  ],
+  "negativeRouting": [
+    "Make these dashboard metrics more visually prominent.",
+    "Capture the brand and audience context for a redesign."
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "positiveRouting": [
+    "Our headings and labels all look alike. Create a compact type hierarchy.",
+    "Tune this article layout for readable measure, rhythm, and responsive text."
+  ],
+  "negativeRouting": [
+    "Make the modal keyboard accessible.",
+    "Choose the primary and secondary actions for this workflow."
+  ]
+}

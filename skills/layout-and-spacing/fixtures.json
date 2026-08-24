@@ -1,0 +1,10 @@
+{
+  "positiveRouting": [
+    "Unify the padding and gaps in these cards and make the layout reflow cleanly.",
+    "This page breaks between tablet and desktop widths. Redesign its layout constraints."
+  ],
+  "negativeRouting": [
+    "Write the error message for this failed payment.",
+    "Audit the dialog keyboard interaction pattern."
+  ]
+}

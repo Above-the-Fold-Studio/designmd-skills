@@ -1,0 +1,10 @@
+{
+  "positiveRouting": [
+    "Before redesigning onboarding, capture the product and design context we should preserve.",
+    "Turn these scattered brand notes and product requirements into a usable interface brief."
+  ],
+  "negativeRouting": [
+    "Increase the contrast of this disabled button.",
+    "Audit this form for keyboard and screen-reader problems."
+  ]
+}

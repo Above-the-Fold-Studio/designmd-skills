@@ -1,5 +1,72 @@
 {
   "$schema": "../schema/registry.schema.json",
   "version": 1,
-  "skills": []
+  "skills": [
+    {
+      "id": "accessible-interface",
+      "title": "Accessible Interface",
+      "description": "Design and review inclusive interfaces for keyboard, screen-reader, cognitive, and visual access.",
+      "category": "foundation",
+      "status": "experimental",
+      "version": "0.1.0",
+      "path": "skills/accessible-interface",
+      "provenance": "synthesized",
+      "testedAgents": []
+    },
+    {
+      "id": "color-and-contrast",
+      "title": "Color and Contrast",
+      "description": "Build purposeful interface color roles with legible contrast, clear states, and restrained emphasis.",
+      "category": "foundation",
+      "status": "experimental",
+      "version": "0.1.0",
+      "path": "skills/color-and-contrast",
+      "provenance": "synthesized",
+      "testedAgents": []
+    },
+    {
+      "id": "design-context",
+      "title": "Design Context",
+      "description": "Capture the product, users, constraints, and design direction before making interface decisions.",
+      "category": "foundation",
+      "status": "experimental",
+      "version": "0.1.0",
+      "path": "skills/design-context",
+      "provenance": "synthesized",
+      "testedAgents": []
+    },
+    {
+      "id": "layout-and-spacing",
+      "title": "Layout and Spacing",
+      "description": "Create coherent interface layouts and spacing systems that preserve relationships across screen sizes.",
+      "category": "foundation",
+      "status": "experimental",
+      "version": "0.1.0",
+      "path": "skills/layout-and-spacing",
+      "provenance": "synthesized",
+      "testedAgents": []
+    },
+    {
+      "id": "typography",
+      "title": "Typography",
+      "description": "Choose and tune interface typography for readable hierarchy, rhythm, density, and resilient content.",
+      "category": "foundation",
+      "status": "experimental",
+      "version": "0.1.0",
+      "path": "skills/typography",
+      "provenance": "synthesized",
+      "testedAgents": []
+    },
+    {
+      "id": "visual-hierarchy",
+      "title": "Visual Hierarchy",
+      "description": "Strengthen interface hierarchy so attention, reading order, and primary actions are immediately clear.",
+      "category": "foundation",
+      "status": "experimental",
+      "version": "0.1.0",
+      "path": "skills/visual-hierarchy",
+      "provenance": "synthesized",
+      "testedAgents": []
+    }
+  ]
 }

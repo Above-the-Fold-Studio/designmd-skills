@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schema/provenance.schema.json",
+  "class": "synthesized",
+  "license": "MIT",
+  "sources": [
+    {
+      "name": "Impeccable",
+      "url": "https://github.com/pbakaus/impeccable",
+      "license": "Apache-2.0",
+      "role": "inspiration",
+      "verifiedAt": "2026-08-24"
+    },
+    {
+      "name": "Marketing Skills",
+      "url": "https://github.com/coreyhaines31/marketingskills",
+      "license": "MIT",
+      "role": "inspiration",
+      "verifiedAt": "2026-08-24"
+    }
+  ],
+  "notes": "Original instructions synthesized from public context-file patterns; no upstream prose or assets copied."
+}
