@@ -1,0 +1,51 @@
+name: Skill proposal
+description: Propose a concrete new DesignMD skill or curated entry.
+title: "[Skill]: "
+labels:
+  - skill-proposal
+body:
+  - type: textarea
+    id: job
+    attributes:
+      label: Repeated job
+      description: What concrete repeated task should the skill help an agent complete?
+    validations:
+      required: true
+  - type: dropdown
+    id: ownership
+    attributes:
+      label: Proposed ownership class
+      options:
+        - designmd-authored
+        - adapted-with-attribution
+        - curated-link
+        - license-review-required
+        - redistribution-prohibited
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Source and license evidence
+      description: Include upstream repository, exact path, pinned ref, and license when applicable.
+    validations:
+      required: true
+  - type: textarea
+    id: routing
+    attributes:
+      label: Routing examples
+      description: Give one request that should select the skill and one that should not.
+    validations:
+      required: true
+  - type: dropdown
+    id: capability
+    attributes:
+      label: Hosted capability required
+      options:
+        - None
+        - Free
+        - Pro
+        - Builder
+        - Unknown
+    validations:
+      required: true

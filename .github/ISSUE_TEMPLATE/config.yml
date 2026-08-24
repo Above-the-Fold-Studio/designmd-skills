@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/Above-the-Fold-Studio/designmd-skills/security/advisories/new
+    about: Report vulnerabilities privately. Do not open a public security issue.
+  - name: DesignMD support
+    url: https://designmd.co/about
+    about: Contact DesignMD about account or hosted-service questions.
