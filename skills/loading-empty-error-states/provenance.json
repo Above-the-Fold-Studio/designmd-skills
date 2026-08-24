@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schema/provenance.schema.json",
+  "class": "synthesized",
+  "license": "MIT",
+  "sources": [
+    {
+      "name": "Dembrandt Skills",
+      "url": "https://github.com/dembrandt/dembrandt-skills",
+      "license": "MIT",
+      "role": "inspiration",
+      "verifiedAt": "2026-08-24"
+    },
+    {
+      "name": "Impeccable",
+      "url": "https://github.com/pbakaus/impeccable",
+      "license": "Apache-2.0",
+      "role": "inspiration",
+      "verifiedAt": "2026-08-24"
+    }
+  ],
+  "notes": "Original state-design workflow synthesized from public design-skill patterns; no upstream prose or assets copied."
+}

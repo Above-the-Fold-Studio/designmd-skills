@@ -1,0 +1,10 @@
+{
+  "positiveRouting": [
+    "Audit our tokens, components, docs, and product adoption before a migration.",
+    "Separate design-system defects from product overrides and justified exceptions."
+  ],
+  "negativeRouting": [
+    "Critique this single landing page and prioritize visual improvements.",
+    "Choose type roles and line lengths for our documentation."
+  ]
+}

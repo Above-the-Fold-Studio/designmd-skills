@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schema/provenance.schema.json",
+  "class": "synthesized",
+  "license": "MIT",
+  "sources": [
+    {
+      "name": "Dembrandt Skills",
+      "url": "https://github.com/dembrandt/dembrandt-skills",
+      "license": "MIT",
+      "role": "inspiration",
+      "verifiedAt": "2026-08-24"
+    },
+    {
+      "name": "Inclusive Design Skills",
+      "url": "https://github.com/Owl-Listener/inclusive-design-skills",
+      "license": "MIT",
+      "role": "inspiration",
+      "verifiedAt": "2026-08-24"
+    }
+  ],
+  "notes": "Original responsive workflow synthesized from public responsive and inclusive-design skill patterns; no upstream prose copied."
+}

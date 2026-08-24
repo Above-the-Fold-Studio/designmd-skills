@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schema/provenance.schema.json",
+  "class": "synthesized",
+  "license": "MIT",
+  "sources": [
+    {
+      "name": "Impeccable",
+      "url": "https://github.com/pbakaus/impeccable",
+      "license": "Apache-2.0",
+      "role": "inspiration",
+      "verifiedAt": "2026-08-24"
+    },
+    {
+      "name": "Nielsen Norman Group Usability Heuristics",
+      "url": "https://www.nngroup.com/articles/ten-usability-heuristics/",
+      "license": "Copyrighted reference; no redistribution",
+      "role": "reference",
+      "verifiedAt": "2026-08-24"
+    }
+  ],
+  "notes": "Original critique workflow informed by open-source practice and linked usability research; no upstream or article prose copied."
+}

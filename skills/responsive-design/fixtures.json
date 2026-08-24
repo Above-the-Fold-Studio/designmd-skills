@@ -1,0 +1,10 @@
+{
+  "positiveRouting": [
+    "Make this data-heavy page work from a narrow panel through wide desktop.",
+    "Replace device breakpoints with content-driven responsive behavior."
+  ],
+  "negativeRouting": [
+    "Choose a readable type scale for this documentation page.",
+    "Critique the checkout flow and prioritize all usability issues."
+  ]
+}
