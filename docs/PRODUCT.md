@@ -44,4 +44,3 @@ A change belongs here when it makes a portable design skill easier to discover,
 safer to trust, or more useful. It belongs in DesignMD when its primary value
 depends on hosted data, accounts, entitlements, private context, or managed
 execution.
-

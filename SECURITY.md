@@ -18,4 +18,3 @@ scripts and network calls whose behavior is undisclosed.
 
 A local-only skill should say so. A skill requiring a tool, network request, or
 external mutation must disclose it and require authorization at execution time.
-

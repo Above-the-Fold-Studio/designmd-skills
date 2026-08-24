@@ -45,4 +45,3 @@ Skills must work without DesignMD. Optional integrations must be clearly
 labeled and must not weaken the standalone outcome. Examples use obviously
 synthetic data and never contain credentials, private prompts, unpublished
 source, or user content.
-

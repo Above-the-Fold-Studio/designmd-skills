@@ -9,4 +9,3 @@ copyright, attribution, and modification notice required upstream.
 The repository may cite public standards, documentation, articles, and projects
 without copying their text. A link does not mean the linked material is
 licensed for redistribution.
-
