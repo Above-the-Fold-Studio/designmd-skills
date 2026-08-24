@@ -4,7 +4,7 @@ import path from "node:path";
 const ALLOWED_EXTENSIONS = new Set([".md", ".json", ".txt"]);
 
 const SECRET_PATTERNS = [
-  { name: "private key", pattern: /-----BEGIN (?:RSA |EC |OPENSSH |DSA |PGP )?PRIVATE KEY-----/ },
+  { name: "private key", pattern: /-----BEGIN (?:(?:RSA|EC|OPENSSH|DSA) PRIVATE KEY|PGP PRIVATE KEY BLOCK)-----/ },
   { name: "GitHub token", pattern: /\b(?:github_pat_[A-Za-z0-9_]{20,}|gh[pousr]_[A-Za-z0-9]{20,})\b/ },
   { name: "Bearer credential", pattern: /\bBearer\s+[A-Za-z0-9._~+\/-]{20,}={0,2}\b/i },
   { name: "unquoted token assignment", pattern: /\b(?:api[_-]?key|access[_-]?token|secret|token)\s*[:=]\s*[A-Za-z0-9._~+\/-]{20,}={0,2}\b/i },
