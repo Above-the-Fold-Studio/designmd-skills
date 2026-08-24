@@ -66,6 +66,20 @@ Each release-eligible skill needs:
 The root router should load one skill by default and no more than three unless a
 named workflow requires more.
 
+## Verification evidence
+
+A `stable` skill requires tested Claude Code and Codex records whose skill ID,
+agent, version, and commit match the registry. Each JSON record must mark
+`installation`, `positiveRouting`, `negativeRouting`, and `execution` as
+`pass` and include its verification date. The skill-level verified commit must
+match both agent records.
+
+A curated entry may be `verified` only when a structured evidence file confirms
+that its HTTPS repository and pinned commit were reachable on the recorded date.
+An installable entry must also confirm the exact published package. Unavailable
+or unverified entries cannot publish a package, installation claim, or evidence
+claim.
+
 ## Adapted work
 
 An adapted contribution must preserve upstream copyright and license notices and

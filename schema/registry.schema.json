@@ -63,7 +63,7 @@
       },
       "allOf": [
         {
-          "if": { "properties": { "status": { "const": "tested" } } },
+          "if": { "type": "object", "properties": { "status": { "const": "tested" } } },
           "then": {
             "properties": {
               "verifiedVersion": { "type": "string", "minLength": 1 },
@@ -153,14 +153,33 @@
           "type": ["string", "null"],
           "format": "date"
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "stable" } } },
+          "then": {
+            "properties": {
+              "agents": { "type": "array",
+                "items": {
+                  "allOf": [
+                    { "$ref": "#/$defs/agentSupport" },
+                    { "type": "object", "properties": { "status": { "const": "tested" } } }
+                  ]
+                }
+              },
+              "verifiedCommit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+              "lastVerified": { "type": "string", "format": "date" }
+            }
+          }
+        }
+      ]
     },
     "externalEntry": {
       "type": "object",
       "additionalProperties": false,
       "required": [
         "id", "kind", "title", "description", "source", "visibility",
-        "availability", "installable", "publishedPackage", "license",
+        "availability", "installable", "publishedPackage", "license", "evidence",
         "lastVerified"
       ],
       "properties": {
@@ -182,8 +201,48 @@
         "installable": { "type": "boolean" },
         "publishedPackage": { "type": ["string", "null"] },
         "license": { "type": "string", "minLength": 1 },
+        "evidence": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/relativePath" }] },
         "lastVerified": { "type": "string", "format": "date" }
-      }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "availability": { "const": "verified" } } },
+          "then": {
+            "properties": {
+              "visibility": { "const": "public" },
+              "evidence": { "$ref": "#/$defs/relativePath" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "availability": { "const": "verified" },
+              "installable": { "const": true }
+            }
+          },
+          "then": { "properties": { "publishedPackage": { "type": "string", "minLength": 1 } } }
+        },
+        {
+          "if": {
+            "properties": {
+              "availability": { "const": "verified" },
+              "installable": { "const": false }
+            }
+          },
+          "then": { "properties": { "publishedPackage": { "const": null } } }
+        },
+        {
+          "if": { "properties": { "availability": { "enum": ["unavailable", "unverified"] } } },
+          "then": {
+            "properties": {
+              "installable": { "const": false },
+              "publishedPackage": { "const": null },
+              "evidence": { "const": null }
+            }
+          }
+        }
+      ]
     }
   }
 }

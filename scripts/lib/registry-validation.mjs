@@ -52,6 +52,13 @@ function resolveInside(root, relative, label, errors) {
     errors.push(`${label} does not exist: ${relative}`);
     return null;
   }
+  const rootReal = fs.realpathSync.native(path.resolve(root));
+  const targetReal = fs.realpathSync.native(resolved);
+  const realPrefix = `${rootReal}${path.sep}`;
+  if (!targetReal.startsWith(realPrefix) || path.relative(resolved, targetReal) !== "") {
+    errors.push(`${label} must not traverse or resolve through a symlink`);
+    return null;
+  }
   return resolved;
 }
 
@@ -189,7 +196,22 @@ function validateSkill(root, skill, errors) {
       if (agent?.status === "tested") {
         requireString(agent.verifiedVersion, `${label} tested agent version`, errors);
         requireString(agent.verifiedCommit, `${label} tested agent commit`, errors, SHA);
-        resolveInside(root, agent.evidence, `${label} tested agent evidence`, errors);
+        const evidenceFile = resolveInside(root, agent.evidence, `${label} tested agent evidence`, errors);
+        if (evidenceFile) {
+          const evidence = readJson(evidenceFile, errors, `${label} ${agent.agent} evidence`);
+          if (evidence) {
+            if (evidence.skillId !== skill.id || evidence.agent !== agent.agent) {
+              errors.push(`${label} ${agent.agent} evidence identity must match the registry`);
+            }
+            if (evidence.agentVersion !== agent.verifiedVersion || evidence.commit !== agent.verifiedCommit) {
+              errors.push(`${label} ${agent.agent} evidence version and commit must match the registry`);
+            }
+            for (const field of ["installation", "positiveRouting", "negativeRouting", "execution"]) {
+              if (evidence[field] !== "pass") errors.push(`${label} ${agent.agent} evidence.${field} must be pass`);
+            }
+            requireString(evidence.verifiedDate, `${label} ${agent.agent} evidence.verifiedDate`, errors, DATE);
+          }
+        }
       } else if (agent?.status === "planned" || agent?.status === "unsupported") {
         if (agent.verifiedVersion !== null || agent.verifiedCommit !== null || agent.evidence !== null) {
           errors.push(`${label} ${agent.agent} cannot carry evidence while ${agent.status}`);
@@ -197,6 +219,17 @@ function validateSkill(root, skill, errors) {
       }
     }
     if (names.size !== 2) errors.push(`${label}.agents contains a duplicate or missing agent`);
+  }
+
+  if (skill.status === "stable") {
+    if (!Array.isArray(skill.agents) || !skill.agents.every((agent) => agent.status === "tested")) {
+      errors.push(`${label} cannot be stable until both agents are tested`);
+    }
+    requireString(skill.verifiedCommit, `${label}.verifiedCommit for stable status`, errors, SHA);
+    requireString(skill.lastVerified, `${label}.lastVerified for stable status`, errors, DATE);
+    if (Array.isArray(skill.agents) && skill.agents.some((agent) => agent.verifiedCommit !== skill.verifiedCommit)) {
+      errors.push(`${label} stable agent commits must match the skill verifiedCommit`);
+    }
   }
 
   if (!isObject(skill.fixtures)) {
@@ -220,7 +253,7 @@ function validateSkill(root, skill, errors) {
   }
 }
 
-function validateExternal(entry, errors) {
+function validateExternal(root, entry, errors) {
   const label = isObject(entry) && entry.id ? entry.id : "external entry";
   if (!isObject(entry)) {
     errors.push("Every externalEntries item must be an object");
@@ -237,6 +270,34 @@ function validateExternal(entry, errors) {
   }
   if (entry.visibility === "private" && (entry.installable || entry.publishedPackage !== null)) {
     errors.push(`${label} cannot be installable or published while private`);
+  }
+  if (entry.availability === "verified") {
+    if (entry.visibility !== "public") errors.push(`${label} must be public before availability is verified`);
+    if (entry.installable) {
+      requireString(entry.publishedPackage, `${label}.publishedPackage for installable entry`, errors);
+    } else if (entry.publishedPackage !== null) {
+      errors.push(`${label} cannot name a package while installable is false`);
+    }
+    const evidenceFile = resolveInside(root, entry.evidence, `${label}.evidence`, errors);
+    if (evidenceFile) {
+      const evidence = readJson(evidenceFile, errors, `${label} external evidence`);
+      if (evidence) {
+        if (evidence.entryId !== entry.id || evidence.repository !== entry.source?.repository || evidence.commit !== entry.source?.commit) {
+          errors.push(`${label} external evidence must match the registry source`);
+        }
+        if (evidence.repositoryReachable !== true || evidence.commitReachable !== true) {
+          errors.push(`${label} verified evidence must confirm the repository and commit`);
+        }
+        if (evidence.verifiedDate !== entry.lastVerified) errors.push(`${label} evidence date must match lastVerified`);
+        if (entry.installable && (evidence.package !== entry.publishedPackage || evidence.packageReachable !== true)) {
+          errors.push(`${label} installable evidence must confirm the published package`);
+        }
+      }
+    }
+  } else {
+    if (entry.installable || entry.publishedPackage !== null || entry.evidence !== null) {
+      errors.push(`${label} cannot be installable, published, or evidenced while ${entry.availability}`);
+    }
   }
   requireString(entry.lastVerified, `${label}.lastVerified`, errors, DATE);
 }
@@ -264,10 +325,37 @@ export function validateRepository(root) {
   const allIds = [...orderedSkillIds, ...orderedExternalIds];
   if (new Set(allIds).size !== allIds.length) errors.push("Registry IDs must be unique across skills and external entries");
 
-  for (const skill of skills) validateSkill(root, skill, errors);
-  for (const entry of external) validateExternal(entry, errors);
+  const skillIds = new Set(orderedSkillIds);
+  const graph = new Map();
+  for (const skill of skills) {
+    const dependencies = Array.isArray(skill?.dependencies) ? skill.dependencies : [];
+    graph.set(skill?.id, dependencies);
+    for (const dependency of dependencies) {
+      if (dependency === skill?.id) errors.push(`${skill?.id} cannot depend on itself`);
+      else if (!skillIds.has(dependency)) errors.push(`${skill?.id} depends on missing skill ${dependency}`);
+    }
+  }
+  const visiting = new Set();
+  const visited = new Set();
+  function visit(id, trail) {
+    if (visiting.has(id)) {
+      errors.push(`Skill dependency cycle: ${[...trail, id].join(" -> ")}`);
+      return;
+    }
+    if (visited.has(id)) return;
+    visiting.add(id);
+    for (const dependency of graph.get(id) ?? []) {
+      if (skillIds.has(dependency)) visit(dependency, [...trail, id]);
+    }
+    visiting.delete(id);
+    visited.add(id);
+  }
+  for (const id of skillIds) visit(id, []);
 
-  const registeredEntries = new Set(skills.map((skill) => path.resolve(root, skill.entry ?? "")));
+  for (const skill of skills) validateSkill(root, skill, errors);
+  for (const entry of external) validateExternal(root, entry, errors);
+
+  const registeredEntries = new Set(skills.map((skill) => path.resolve(root, skill?.entry ?? "")));
   const actualEntries = walk(path.join(root, "skills"), (file) => path.basename(file) === "SKILL.md");
   for (const entry of actualEntries) {
     if (!registeredEntries.has(path.resolve(entry))) {

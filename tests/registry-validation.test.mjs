@@ -104,7 +104,7 @@ test("rejects unsubstantiated tested-agent status", () => {
   });
 });
 
-test("rejects an installable private curated entry", () => {
+test("rejects an installable unavailable curated entry", () => {
   withRepository((root) => {
     writeRegistry(root, [], [{
       id: "distinct",
@@ -115,13 +115,86 @@ test("rejects an installable private curated entry", () => {
         repository: "https://github.com/Above-the-Fold-Studio/distinct",
         commit: "7138fae225bedada27808522dff6ab6a00f0036f"
       },
-      visibility: "private",
+      visibility: "public",
       availability: "unavailable",
       installable: true,
       publishedPackage: null,
+      evidence: null,
       license: "Apache-2.0",
       lastVerified: "2026-08-24"
     }]);
     assert.ok(validateRepository(root).some((error) => error.includes("cannot be installable")));
+  });
+});
+test("rejects a dependency on a missing skill", () => {
+  withRepository((root) => {
+    const skill = writeValidSkill(root);
+    skill.dependencies = ["missing-skill"];
+    writeRegistry(root, [skill]);
+    assert.ok(validateRepository(root).some((error) => error.includes("depends on missing skill")));
+  });
+});
+
+test("rejects a stable skill without tested-agent evidence", () => {
+  withRepository((root) => {
+    const skill = writeValidSkill(root);
+    skill.status = "stable";
+    skill.verifiedCommit = "a".repeat(40);
+    skill.lastVerified = "2026-08-24";
+    writeRegistry(root, [skill]);
+    assert.ok(validateRepository(root).some((error) => error.includes("both agents are tested")));
+  });
+});
+
+test("rejects a skill entry that resolves through an outside symlink", () => {
+  withRepository((root) => {
+    const skill = writeValidSkill(root);
+    const outside = `${root}-outside`;
+    fs.mkdirSync(outside);
+    fs.writeFileSync(path.join(outside, "SKILL.md"), "outside\n", "utf8");
+    fs.rmSync(path.dirname(path.join(root, skill.entry)), { recursive: true, force: true });
+    fs.symlinkSync(outside, path.dirname(path.join(root, skill.entry)), process.platform === "win32" ? "junction" : "dir");
+    writeRegistry(root, [skill]);
+    try {
+      assert.ok(validateRepository(root).some((error) => error.includes("symlink")));
+    } finally {
+      fs.rmSync(outside, { recursive: true, force: true });
+    }
+  });
+});
+test("rejects a cyclic dependency graph", () => {
+  withRepository((root) => {
+    const first = writeValidSkill(root);
+    const second = validSkill();
+    second.id = "second-skill";
+    second.entry = "skills/second-skill/SKILL.md";
+    second.provenance = "skills/second-skill/provenance.json";
+    second.fixtures = {
+      positive: ["tests/fixtures/second-skill/positive.json"],
+      negative: ["tests/fixtures/second-skill/negative.json"],
+    };
+    first.dependencies = [second.id];
+    second.dependencies = [first.id];
+    writeValidSkill(root, second);
+    writeRegistry(root, [first, second]);
+    assert.ok(validateRepository(root).some((error) => error.includes("dependency cycle")));
+  });
+});
+
+test("rejects tested-agent evidence whose record does not match", () => {
+  withRepository((root) => {
+    const skill = writeValidSkill(root);
+    skill.agents[0] = {
+      agent: "claude-code",
+      status: "tested",
+      verifiedVersion: "2.1.0",
+      verifiedCommit: "a".repeat(40),
+      evidence: "evidence/example-skill/claude-code.json",
+    };
+    write(root, skill.agents[0].evidence, "{}\n");
+    writeRegistry(root, [skill]);
+    const errors = validateRepository(root);
+    assert.ok(errors.some((error) => error.includes("evidence identity")));
+    assert.ok(errors.some((error) => error.includes("evidence.installation")));
   });
 });
