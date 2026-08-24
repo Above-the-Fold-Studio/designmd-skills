@@ -5,8 +5,9 @@ This file tracks the small set of release blockers that must be resolved after t
 ## Pre-merge
 
 - [ ] Independent review of the exact final PR #10 SHA.
-- [ ] Restore an operational code-owner review path. `.github/CODEOWNERS` names `@Above-the-Fold-Studio/alpha`, but GitHub currently rejects review requests to that team because it does not have collaborator access to this repository.
-- [ ] Confirm the final PR #10 GitHub Actions `Validate` run passes after the last security-test correction.
+- [x] Remove the non-operational `@Above-the-Fold-Studio/alpha` CODEOWNERS assignment for v1 bootstrap. Re-add an appropriate team later after repository access is configured.
+- [x] Confirm the prior frozen PR #10 GitHub Actions `Validate` run passed after the security-test correction.
+- [ ] Confirm GitHub Actions `Validate` passes again on the new final SHA after the CODEOWNERS/release-gate cleanup.
 
 ## Merge
 
@@ -34,3 +35,8 @@ Behavioral agent compatibility is separate from installation. Before a skill is 
 
 - `curated`: independently reviewed behavioral evidence in at least one named agent/version.
 - `official`: verified installation and behavior in both Codex and Claude Code plus maintainer approval.
+
+## Deferred administration
+
+- Re-add CODEOWNERS after the intended Above the Fold Studio team has repository access.
+- Any broader repository transfer, rename, or DesignMD/Design Skills organization consolidation remains outside this v1 release unless separately instructed.
