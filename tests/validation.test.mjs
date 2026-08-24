@@ -49,12 +49,50 @@ test("returns null when frontmatter is absent", () => {
   assert.equal(parseFrontmatter("# Visual hierarchy"), null);
 });
 
+test("parses Agent Skills frontmatter with CRLF line endings", () => {
+  assert.deepEqual(
+    parseFrontmatter(
+      "---\r\nname: visual-hierarchy\r\ndescription: A clear outcome.\r\n---\r\n",
+    ),
+    { name: "visual-hierarchy", description: "A clear outcome." },
+  );
+});
+
+test("curated status requires agent behavior evidence", () => {
+  const entry = { ...valid, status: "curated", testedAgents: [] };
+  assert.match(validateEntry(entry).join("\n"), /requires tested agent evidence/);
+});
+
+test("official status requires both Codex and Claude Code evidence", () => {
+  const entry = { ...valid, status: "official", testedAgents: ["Codex"] };
+  assert.match(
+    validateEntry(entry).join("\n"),
+    /official requires Codex and Claude Code/,
+  );
+});
+
 test("registry schema rejects unknown tier metadata", async () => {
   const schema = JSON.parse(
     await readFile(new URL("../schema/registry.schema.json", import.meta.url)),
   );
   const registry = { version: 1, skills: [{ ...valid, tier: "pro" }] };
   assert.match(validateAgainstSchema(schema, registry).join("\n"), /additional/);
+});
+
+test("registry schema enforces curated and official evidence", async () => {
+  const schema = JSON.parse(
+    await readFile(new URL("../schema/registry.schema.json", import.meta.url)),
+  );
+  const curated = {
+    version: 1,
+    skills: [{ ...valid, status: "curated", testedAgents: [] }],
+  };
+  const official = {
+    version: 1,
+    skills: [{ ...valid, status: "official", testedAgents: ["Codex"] }],
+  };
+  assert.notDeepEqual(validateAgainstSchema(schema, curated), []);
+  assert.notDeepEqual(validateAgainstSchema(schema, official), []);
 });
 
 test("provenance schema rejects missing notes and unknown fields", async () => {

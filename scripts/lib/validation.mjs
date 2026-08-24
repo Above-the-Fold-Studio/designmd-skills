@@ -41,10 +41,10 @@ async function exists(file) {
 }
 
 export function parseFrontmatter(markdown) {
-  const match = markdown.match(/^---\n([\s\S]*?)\n---(?:\n|$)/);
+  const match = markdown.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
   if (!match) return null;
   const values = {};
-  for (const line of match[1].split("\n")) {
+  for (const line of match[1].split(/\r?\n/)) {
     const separator = line.indexOf(":");
     if (separator === -1) continue;
     values[line.slice(0, separator).trim()] = line.slice(separator + 1).trim();
@@ -90,6 +90,21 @@ export function validateEntry(entry, seen = new Set()) {
     )
   ) {
     errors.push(`${entry.id}: testedAgents values must be non-empty strings`);
+  }
+  if (
+    (entry.status === "curated" || entry.status === "official") &&
+    Array.isArray(entry.testedAgents) &&
+    entry.testedAgents.length === 0
+  ) {
+    errors.push(`${entry.id}: ${entry.status} requires tested agent evidence`);
+  }
+  if (
+    entry.status === "official" &&
+    Array.isArray(entry.testedAgents) &&
+    (!entry.testedAgents.includes("Codex") ||
+      !entry.testedAgents.includes("Claude Code"))
+  ) {
+    errors.push(`${entry.id}: official requires Codex and Claude Code evidence`);
   }
   return errors;
 }
