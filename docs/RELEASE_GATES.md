@@ -6,8 +6,9 @@ This file tracks the small set of release blockers that must be resolved after t
 
 - [ ] Independent review of the exact final PR #10 SHA.
 - [x] Remove the non-operational `@Above-the-Fold-Studio/alpha` CODEOWNERS assignment for v1 bootstrap. Re-add an appropriate team later after repository access is configured.
-- [x] Confirm the prior frozen PR #10 GitHub Actions `Validate` run passed after the security-test correction.
-- [ ] Confirm GitHub Actions `Validate` passes again on the new final SHA after the CODEOWNERS/release-gate cleanup.
+- [x] Confirm GitHub Actions `Validate` passes on the current PR #10 review-fix SHA.
+- [x] Self-review found and fixed unsupported `testedAgents` claims during bootstrap.
+- [x] Self-review found and fixed binary payloads disguised with allowed text extensions.
 
 ## Merge
 
@@ -28,6 +29,13 @@ Do not bypass a failed required check or unresolved review finding merely to com
 - [ ] Verify the repository is discoverable through the expected skills.sh / `skills` ecosystem path.
 - [ ] Record installation evidence with the exact repository SHA and installer version.
 - [ ] Keep all skills `experimental` until behavioral evidence supports promotion.
+
+## Follow-up quality improvements
+
+These do not block the experimental v1 release but remain planned quality work:
+
+- Expand each `DESIGN.md` toward the full detail-page contract: explicit non-use guidance, representative output, compatibility/install context, and rendered source/provenance context.
+- Refresh repository description/topics so the public GitHub metadata reflects the standalone Design Skills positioning and does not imply an MCP dependency.
 
 ## Behavioral evidence
 
