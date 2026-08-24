@@ -67,6 +67,72 @@
       "path": "skills/visual-hierarchy",
       "provenance": "synthesized",
       "testedAgents": []
+    },
+    {
+      "id": "design-system-audit",
+      "title": "Design System Audit",
+      "description": "Audit a design system for token, component, accessibility, documentation, and adoption inconsistencies.",
+      "category": "workflow",
+      "status": "experimental",
+      "version": "0.1.0",
+      "path": "skills/design-system-audit",
+      "provenance": "synthesized",
+      "testedAgents": []
+    },
+    {
+      "id": "forms-and-validation",
+      "title": "Forms and Validation",
+      "description": "Design and review forms that reduce effort, prevent errors, explain recovery, and preserve user input.",
+      "category": "workflow",
+      "status": "experimental",
+      "version": "0.1.0",
+      "path": "skills/forms-and-validation",
+      "provenance": "synthesized",
+      "testedAgents": []
+    },
+    {
+      "id": "interaction-and-motion",
+      "title": "Interaction and Motion",
+      "description": "Design purposeful interaction feedback and motion that clarify cause, state, continuity, and control.",
+      "category": "workflow",
+      "status": "experimental",
+      "version": "0.1.0",
+      "path": "skills/interaction-and-motion",
+      "provenance": "synthesized",
+      "testedAgents": []
+    },
+    {
+      "id": "interface-critique",
+      "title": "Interface Critique",
+      "description": "Critique an existing interface against user goals and return prioritized, evidence-based improvements.",
+      "category": "workflow",
+      "status": "experimental",
+      "version": "0.1.0",
+      "path": "skills/interface-critique",
+      "provenance": "synthesized",
+      "testedAgents": []
+    },
+    {
+      "id": "loading-empty-error-states",
+      "title": "Loading, Empty, and Error States",
+      "description": "Design useful loading, empty, error, and recovery states that keep users oriented and able to act.",
+      "category": "workflow",
+      "status": "experimental",
+      "version": "0.1.0",
+      "path": "skills/loading-empty-error-states",
+      "provenance": "synthesized",
+      "testedAgents": []
+    },
+    {
+      "id": "responsive-design",
+      "title": "Responsive Design",
+      "description": "Design and verify responsive interfaces that adapt content, interaction, and layout across constraints.",
+      "category": "workflow",
+      "status": "experimental",
+      "version": "0.1.0",
+      "path": "skills/responsive-design",
+      "provenance": "synthesized",
+      "testedAgents": []
     }
   ]
 }

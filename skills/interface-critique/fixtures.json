@@ -1,0 +1,10 @@
+{
+  "positiveRouting": [
+    "Critique this dashboard against the operator's main task and prioritize the fixes.",
+    "Review this landing page without redesigning it from personal taste."
+  ],
+  "negativeRouting": [
+    "Create a semantic color token map for dark mode.",
+    "Audit every component and token in our design system."
+  ]
+}

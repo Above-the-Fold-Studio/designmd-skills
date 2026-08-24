@@ -1,0 +1,29 @@
+{
+  "$schema": "../../schema/provenance.schema.json",
+  "class": "synthesized",
+  "license": "MIT",
+  "sources": [
+    {
+      "name": "Impeccable",
+      "url": "https://github.com/pbakaus/impeccable",
+      "license": "Apache-2.0",
+      "role": "inspiration",
+      "verifiedAt": "2026-08-24"
+    },
+    {
+      "name": "Dembrandt Skills",
+      "url": "https://github.com/dembrandt/dembrandt-skills",
+      "license": "MIT",
+      "role": "inspiration",
+      "verifiedAt": "2026-08-24"
+    },
+    {
+      "name": "Web Content Accessibility Guidelines",
+      "url": "https://www.w3.org/WAI/WCAG22/",
+      "license": "W3C Software and Document License",
+      "role": "reference",
+      "verifiedAt": "2026-08-24"
+    }
+  ],
+  "notes": "Original interaction workflow informed by open-source design skills and WCAG references; no upstream prose or code copied."
+}

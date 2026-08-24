@@ -1,0 +1,10 @@
+{
+  "positiveRouting": [
+    "Reduce this signup form and design its inline and submission validation.",
+    "Specify accessible errors, focus, input preservation, and resume behavior."
+  ],
+  "negativeRouting": [
+    "Make this dashboard responsive across container widths.",
+    "Audit our color tokens for contrast and state roles."
+  ]
+}

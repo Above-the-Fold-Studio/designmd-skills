@@ -47,4 +47,15 @@ See [Product principles](docs/PRODUCT.md), [Quality policy](QUALITY.md), and
 | [Layout and Spacing](skills/layout-and-spacing/DESIGN.md) | Create coherent interface layouts and spacing systems that preserve relationships across screen sizes. | experimental | 0.1.0 |
 | [Typography](skills/typography/DESIGN.md) | Choose and tune interface typography for readable hierarchy, rhythm, density, and resilient content. | experimental | 0.1.0 |
 | [Visual Hierarchy](skills/visual-hierarchy/DESIGN.md) | Strengthen interface hierarchy so attention, reading order, and primary actions are immediately clear. | experimental | 0.1.0 |
+
+### Workflows
+
+| Skill | Outcome | Status | Version |
+| --- | --- | --- | --- |
+| [Design System Audit](skills/design-system-audit/DESIGN.md) | Audit a design system for token, component, accessibility, documentation, and adoption inconsistencies. | experimental | 0.1.0 |
+| [Forms and Validation](skills/forms-and-validation/DESIGN.md) | Design and review forms that reduce effort, prevent errors, explain recovery, and preserve user input. | experimental | 0.1.0 |
+| [Interaction and Motion](skills/interaction-and-motion/DESIGN.md) | Design purposeful interaction feedback and motion that clarify cause, state, continuity, and control. | experimental | 0.1.0 |
+| [Interface Critique](skills/interface-critique/DESIGN.md) | Critique an existing interface against user goals and return prioritized, evidence-based improvements. | experimental | 0.1.0 |
+| [Loading, Empty, and Error States](skills/loading-empty-error-states/DESIGN.md) | Design useful loading, empty, error, and recovery states that keep users oriented and able to act. | experimental | 0.1.0 |
+| [Responsive Design](skills/responsive-design/DESIGN.md) | Design and verify responsive interfaces that adapt content, interaction, and layout across constraints. | experimental | 0.1.0 |
 <!-- END GENERATED CATALOG -->

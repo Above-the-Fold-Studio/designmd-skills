@@ -1,0 +1,10 @@
+{
+  "positiveRouting": [
+    "Design loading, empty, offline, partial-success, and retry states for this import.",
+    "Replace this generic spinner and error toast with a complete state model."
+  ],
+  "negativeRouting": [
+    "Critique the overall information hierarchy of this homepage.",
+    "Create a responsive grid and spacing model."
+  ]
+}
