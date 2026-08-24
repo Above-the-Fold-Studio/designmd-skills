@@ -1,0 +1,58 @@
+name: Skill proposal
+description: Propose a new portable design skill or a material expansion of an existing one.
+title: "skill: "
+labels: []
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Design problem
+      description: What repeated user, product, or interface problem should this skill address?
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Intended outcome
+      description: What should an agent be able to produce or improve after using this skill?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and non-goals
+      description: Define the boundary. Name nearby skills this should not duplicate.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and sources
+      description: What standards, references, research, or practitioner knowledge should inform it? Include licenses where relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: routing
+    attributes:
+      label: Routing examples
+      description: Give at least two requests that should trigger this skill and two that should not.
+    validations:
+      required: true
+  - type: dropdown
+    id: dependency
+    attributes:
+      label: Standalone value
+      description: Can the proposed skill deliver its core value without DesignMD or another hosted service?
+      options:
+        - "Yes"
+        - "No"
+        - "Unsure"
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Contribution boundary
+      options:
+        - label: I will not include credentials, executable payloads, or copied material without compatible licensing and attribution.
+          required: true

@@ -1,0 +1,40 @@
+name: Skill request
+description: Request a design skill for a repeated problem without writing a full proposal.
+title: "request: "
+labels: []
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What design problem keeps coming up?
+      description: Describe the repeated task, failure, or decision you want an agent to handle better.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Example request
+      description: Give one realistic prompt or situation where this skill would help.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Useful outcome
+      description: What would a good result look like?
+    validations:
+      required: true
+  - type: textarea
+    id: nearby
+    attributes:
+      label: Related existing skill, if any
+      description: Name an existing skill that feels close, or leave this blank if none does.
+    validations:
+      required: false
+  - type: checkboxes
+    id: standalone
+    attributes:
+      label: Standalone expectation
+      options:
+        - label: The requested skill should provide useful core value without requiring DesignMD or another paid service.
+          required: true

@@ -58,6 +58,14 @@ test("parses Agent Skills frontmatter with CRLF line endings", () => {
   );
 });
 
+test("experimental status rejects tested-agent claims before evidence validation ships", () => {
+  const entry = { ...valid, testedAgents: ["Codex"] };
+  assert.match(
+    validateEntry(entry).join("\n"),
+    /experimental testedAgents must remain empty/,
+  );
+});
+
 test("curated status requires agent behavior evidence", () => {
   const entry = { ...valid, status: "curated", testedAgents: [] };
   assert.match(validateEntry(entry).join("\n"), /requires tested agent evidence/);
@@ -86,6 +94,17 @@ test("registry schema rejects unknown tier metadata", async () => {
   );
   const registry = { version: 1, skills: [{ ...valid, tier: "pro" }] };
   assert.match(validateAgainstSchema(schema, registry).join("\n"), /additional/);
+});
+
+test("registry schema rejects experimental tested-agent claims", async () => {
+  const schema = JSON.parse(
+    await readFile(new URL("../schema/registry.schema.json", import.meta.url)),
+  );
+  const registry = {
+    version: 1,
+    skills: [{ ...valid, testedAgents: ["Codex"] }],
+  };
+  assert.notDeepEqual(validateAgainstSchema(schema, registry), []);
 });
 
 test("registry schema enforces curated and official evidence", async () => {

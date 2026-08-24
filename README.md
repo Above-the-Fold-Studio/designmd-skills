@@ -17,6 +17,8 @@ skill's core value.
 The library starts small by design. A useful, tested skill is more valuable than
 a large prompt directory.
 
+The canonical implementation and acceptance roadmap is [docs/PLAN.md](docs/PLAN.md). Update that document when scope or release criteria change rather than creating an undocumented parallel plan.
+
 ## Access and licensing
 
 All public skills are free to read, install, adapt, and contribute to under the
@@ -33,6 +35,28 @@ behavior evidence, provenance, and release status must agree.
 
 See [Product principles](docs/PRODUCT.md), [Quality policy](QUALITY.md), and
 [Contributing](CONTRIBUTING.md).
+
+## Install and contribute
+
+The repository uses the existing open Agent Skills ecosystem rather than a
+custom installer. Inspect the catalog with:
+
+```sh
+npx skills add Above-the-Fold-Studio/designmd-skills --list
+```
+
+Then install only the skill or skills you want. See [Installation](docs/INSTALL.md)
+for examples and [Compatibility](docs/COMPATIBILITY.md) for the difference
+between installer support and tested agent behavior.
+
+New skills should start from a concrete design problem and preserve a narrow,
+portable scope. See [Growth and contribution loop](docs/GROWTH.md). Use the lightweight skill-request issue form when you have a repeated problem to solve, or the skill-proposal form when you are ready to define a new workflow in detail.
+
+Bootstrap skill packages are restricted to inert `.md`, `.json`, and `.txt`
+content. Repository checks reject symlink traversal, executable/binary payloads,
+and known credential/private-key signatures inside `skills/`.
+
+See [Versioning](VERSIONS.md) for per-skill and compatibility evidence rules.
 
 ## Catalog
 
