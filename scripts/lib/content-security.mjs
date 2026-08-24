@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 const ALLOWED_EXTENSIONS = new Set([".md", ".json", ".txt"]);
+const DISALLOWED_TEXT = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\uFFFD]/;
 
 const SECRET_PATTERNS = [
   { name: "private key", pattern: /-----BEGIN (?:(?:RSA|EC|OPENSSH|DSA) PRIVATE KEY|PGP PRIVATE KEY BLOCK)-----/ },
@@ -40,6 +41,10 @@ async function inspectTree(root, current, errors) {
     }
 
     const content = await fs.readFile(fullPath, "utf8");
+    if (DISALLOWED_TEXT.test(content)) {
+      errors.push(`${relative}: contains binary or invalid UTF-8 content disguised as text`);
+      continue;
+    }
     for (const { name, pattern } of SECRET_PATTERNS) {
       if (pattern.test(content)) {
         errors.push(`${relative}: contains credential-shaped content (${name})`);
