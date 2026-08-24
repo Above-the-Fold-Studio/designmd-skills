@@ -95,12 +95,16 @@ function parseFrontmatter(file, errors, label) {
   return result;
 }
 
-function walk(root, predicate) {
+function walk(root, predicate, errors, base = root) {
   const found = [];
   if (!fs.existsSync(root)) return found;
   for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
     const target = path.join(root, entry.name);
-    if (entry.isDirectory()) found.push(...walk(target, predicate));
+    if (entry.isSymbolicLink()) {
+      errors.push(`Repository symlink is not allowed: ${path.relative(base, target).replaceAll(path.sep, "/")}`);
+      continue;
+    }
+    if (entry.isDirectory()) found.push(...walk(target, predicate, errors, base));
     else if (predicate(target)) found.push(target);
   }
   return found;
@@ -356,7 +360,7 @@ export function validateRepository(root) {
   for (const entry of external) validateExternal(root, entry, errors);
 
   const registeredEntries = new Set(skills.map((skill) => path.resolve(root, skill?.entry ?? "")));
-  const actualEntries = walk(path.join(root, "skills"), (file) => path.basename(file) === "SKILL.md");
+  const actualEntries = walk(path.join(root, "skills"), (file) => path.basename(file) === "SKILL.md", errors);
   for (const entry of actualEntries) {
     if (!registeredEntries.has(path.resolve(entry))) {
       errors.push(`Orphan skill entrypoint: ${path.relative(root, entry).replaceAll(path.sep, "/")}`);

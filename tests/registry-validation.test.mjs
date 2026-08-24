@@ -198,3 +198,18 @@ test("rejects tested-agent evidence whose record does not match", () => {
     assert.ok(errors.some((error) => error.includes("evidence.installation")));
   });
 });
+test("rejects an unregistered symlink under a skill directory", () => {
+  withRepository((root) => {
+    const skill = writeValidSkill(root);
+    const outside = `${root}-unregistered`;
+    fs.mkdirSync(outside);
+    fs.writeFileSync(path.join(outside, "private.md"), "external content\n", "utf8");
+    fs.symlinkSync(outside, path.join(root, "skills", skill.id, "references"), process.platform === "win32" ? "junction" : "dir");
+    writeRegistry(root, [skill]);
+    try {
+      assert.ok(validateRepository(root).some((error) => error.includes("Repository symlink")));
+    } finally {
+      fs.rmSync(outside, { recursive: true, force: true });
+    }
+  });
+});

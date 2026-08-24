@@ -1,23 +1,17 @@
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import { collectRepositoryFiles } from "./lib/repository-files.mjs";
 
 const root = process.cwd();
-const ignored = new Set([".git", "node_modules"]);
+const ignoredDirectories = new Set([".git", "node_modules"]);
+const { files, symlinks } = collectRepositoryFiles(root, {
+  ignoredDirectories,
+  include: (file) => file.endsWith(".md"),
+});
+const errors = symlinks.map((target) => `Repository symlink is not allowed: ${target}`);
 
-function walk(directory) {
-  const files = [];
-  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
-    if (ignored.has(entry.name)) continue;
-    const target = path.join(directory, entry.name);
-    if (entry.isDirectory()) files.push(...walk(target));
-    else if (target.endsWith(".md")) files.push(target);
-  }
-  return files;
-}
-
-const errors = [];
-for (const file of walk(root)) {
+for (const file of files) {
   const markdown = fs.readFileSync(file, "utf8").replace(/```[\s\S]*?```/g, "");
   const links = markdown.matchAll(/\[[^\]]*\]\(([^)]+)\)/g);
   for (const match of links) {

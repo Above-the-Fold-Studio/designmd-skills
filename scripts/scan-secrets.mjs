@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import { collectRepositoryFiles } from "./lib/repository-files.mjs";
 
 const root = process.cwd();
 const ignoredDirectories = new Set([".git", "node_modules"]);
@@ -16,20 +17,14 @@ const secretPatterns = [
   ["JWT", /\beyJ[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}\b/],
 ];
 
-function walk(directory) {
-  const files = [];
-  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
-    if (entry.isSymbolicLink()) continue;
-    if (entry.isDirectory() && ignoredDirectories.has(entry.name)) continue;
-    const target = path.join(directory, entry.name);
-    if (entry.isDirectory()) files.push(...walk(target));
-    else if (!ignoredFiles.has(entry.name) && !binaryExtensions.has(path.extname(entry.name).toLowerCase())) files.push(target);
-  }
-  return files;
-}
+const { files, symlinks } = collectRepositoryFiles(root, {
+  ignoredDirectories,
+  ignoredFiles,
+  include: (file) => !binaryExtensions.has(path.extname(file).toLowerCase()),
+});
+const errors = symlinks.map((target) => `Repository symlink is not allowed: ${target}`);
 
-const errors = [];
-for (const file of walk(root)) {
+for (const file of files) {
   const relative = path.relative(root, file).replaceAll(path.sep, "/");
   const text = fs.readFileSync(file, "utf8");
   for (const [name, pattern] of secretPatterns) {
