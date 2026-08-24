@@ -1,5 +1,6 @@
 import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
+import Ajv2020 from "ajv/dist/2020.js";
 
 const ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const VERSION = /^\d+\.\d+\.\d+$/;
@@ -11,6 +12,25 @@ const PROVENANCE = new Set([
   "adapted",
   "reference-only",
 ]);
+const ENTRY_FIELDS = new Set([
+  "id",
+  "title",
+  "description",
+  "category",
+  "status",
+  "version",
+  "path",
+  "provenance",
+  "testedAgents",
+]);
+
+export function validateAgainstSchema(schema, value) {
+  const validate = new Ajv2020({ allErrors: true, strict: true }).compile(schema);
+  if (validate(value)) return [];
+  return validate.errors.map(
+    (error) => `${error.instancePath || "/"} ${error.message}`,
+  );
+}
 
 async function exists(file) {
   try {
@@ -37,6 +57,9 @@ export function validateEntry(entry, seen = new Set()) {
   if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
     return ["registry entry must be an object"];
   }
+  for (const field of Object.keys(entry)) {
+    if (!ENTRY_FIELDS.has(field)) errors.push(`${entry.id}: unknown field ${field}`);
+  }
   if (!ID.test(entry.id ?? "")) errors.push("id must be lowercase kebab-case");
   if (seen.has(entry.id)) errors.push(`duplicate id: ${entry.id}`);
   seen.add(entry.id);
@@ -61,6 +84,12 @@ export function validateEntry(entry, seen = new Set()) {
   }
   if (!Array.isArray(entry.testedAgents)) {
     errors.push(`${entry.id}: testedAgents must be an array`);
+  } else if (
+    entry.testedAgents.some(
+      (agent) => typeof agent !== "string" || agent.length === 0,
+    )
+  ) {
+    errors.push(`${entry.id}: testedAgents values must be non-empty strings`);
   }
   return errors;
 }
@@ -68,14 +97,16 @@ export function validateEntry(entry, seen = new Set()) {
 export async function validateRepository(root) {
   const errors = [];
   let registry;
+  let registrySchema;
+  let provenanceSchema;
   try {
     registry = JSON.parse(
       await readFile(path.join(root, "registry", "skills.json"), "utf8"),
     );
-    JSON.parse(
+    registrySchema = JSON.parse(
       await readFile(path.join(root, "schema", "registry.schema.json"), "utf8"),
     );
-    JSON.parse(
+    provenanceSchema = JSON.parse(
       await readFile(
         path.join(root, "schema", "provenance.schema.json"),
         "utf8",
@@ -84,6 +115,12 @@ export async function validateRepository(root) {
   } catch (error) {
     return [`registry or schema JSON is invalid: ${error.message}`];
   }
+
+  errors.push(
+    ...validateAgainstSchema(registrySchema, registry).map(
+      (error) => `registry schema: ${error}`,
+    ),
+  );
 
   if (registry.version !== 1) errors.push("registry version must equal 1");
   if (!Array.isArray(registry.skills)) return [...errors, "skills must be an array"];
@@ -118,6 +155,11 @@ export async function validateRepository(root) {
       try {
         const provenance = JSON.parse(
           await readFile(path.join(skillRoot, "provenance.json"), "utf8"),
+        );
+        errors.push(
+          ...validateAgainstSchema(provenanceSchema, provenance).map(
+            (error) => `${entry.id}: provenance schema: ${error}`,
+          ),
         );
         if (provenance.class !== entry.provenance) {
           errors.push(`${entry.id}: provenance class differs from registry`);

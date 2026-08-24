@@ -14,5 +14,8 @@
     "test": "node --test",
     "check": "npm run validate && npm run catalog:check && npm test"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "ajv": "^8.18.0"
+  }
 }
