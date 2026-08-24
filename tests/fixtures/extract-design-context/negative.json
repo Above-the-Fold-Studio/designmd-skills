@@ -1,0 +1,11 @@
+{
+  "skillId": "extract-design-context",
+  "kind": "negative",
+  "cases": [
+    {
+      "request": "Implement the supplied local DESIGN.md on the checkout flow.",
+      "expectedRoute": "apply-design-system",
+      "reason": "Verified context is already supplied; implementation is next."
+    }
+  ]
+}

@@ -1,6 +1,159 @@
 {
   "$schema": "./schema/registry.schema.json",
   "schemaVersion": 1,
-  "skills": [],
-  "externalEntries": []
+  "skills": [
+    {
+      "id": "apply-design-system",
+      "kind": "authored",
+      "version": "0.1.0",
+      "title": "Apply a design system",
+      "description": "Implement a bounded interface from DESIGN.md and verified DesignMD context.",
+      "category": "design-system",
+      "status": "experimental",
+      "entry": "skills/apply-design-system/SKILL.md",
+      "triggers": ["apply a design system", "migrate an interface to DESIGN.md", "implement a catalog design"],
+      "instructionAccess": "public",
+      "serviceCapabilities": [
+        { "id": "designmd-mcp", "required": false, "tier": "caller-based", "enforcement": "server" }
+      ],
+      "agents": [
+        { "agent": "claude-code", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null },
+        { "agent": "codex", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null }
+      ],
+      "provenance": "skills/apply-design-system/provenance.json",
+      "fixtures": {
+        "positive": ["tests/fixtures/apply-design-system/positive.json"],
+        "negative": ["tests/fixtures/apply-design-system/negative.json"]
+      },
+      "dependencies": [],
+      "verifiedCommit": null,
+      "lastVerified": null
+    },
+    {
+      "id": "certify-interface",
+      "kind": "authored",
+      "version": "0.1.0",
+      "title": "Certify interface conformance",
+      "description": "Grade one target and candidate through DesignMD and preserve the limits of the evidence.",
+      "category": "certification",
+      "status": "experimental",
+      "entry": "skills/certify-interface/SKILL.md",
+      "triggers": ["certify interface conformance", "grade a build against a design system", "run a pre-merge design grade"],
+      "instructionAccess": "public",
+      "serviceCapabilities": [
+        { "id": "certify-conformance", "required": true, "tier": "caller-based", "enforcement": "server" }
+      ],
+      "agents": [
+        { "agent": "claude-code", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null },
+        { "agent": "codex", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null }
+      ],
+      "provenance": "skills/certify-interface/provenance.json",
+      "fixtures": {
+        "positive": ["tests/fixtures/certify-interface/positive.json"],
+        "negative": ["tests/fixtures/certify-interface/negative.json"]
+      },
+      "dependencies": [],
+      "verifiedCommit": null,
+      "lastVerified": null
+    },
+    {
+      "id": "designmd",
+      "kind": "authored",
+      "version": "0.1.0",
+      "title": "DesignMD workflow router",
+      "description": "Route an interface task to the smallest applicable DesignMD workflow.",
+      "category": "routing",
+      "status": "experimental",
+      "entry": "skills/designmd/SKILL.md",
+      "triggers": ["choose a DesignMD workflow", "route a multi-stage design task", "use DesignMD skills"],
+      "instructionAccess": "public",
+      "serviceCapabilities": [
+        { "id": "designmd-mcp", "required": false, "tier": "caller-based", "enforcement": "server" }
+      ],
+      "agents": [
+        { "agent": "claude-code", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null },
+        { "agent": "codex", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null }
+      ],
+      "provenance": "skills/designmd/provenance.json",
+      "fixtures": {
+        "positive": ["tests/fixtures/designmd/positive.json"],
+        "negative": ["tests/fixtures/designmd/negative.json"]
+      },
+      "dependencies": ["apply-design-system", "certify-interface", "extract-design-context", "review-design-system-implementation"],
+      "verifiedCommit": null,
+      "lastVerified": null
+    },
+    {
+      "id": "extract-design-context",
+      "kind": "authored",
+      "version": "0.1.0",
+      "title": "Extract design context",
+      "description": "Obtain traceable design context from local evidence, the catalog, or an authorized hosted URL flow.",
+      "category": "extraction",
+      "status": "experimental",
+      "entry": "skills/extract-design-context/SKILL.md",
+      "triggers": ["extract design context", "find real design tokens", "create traceable DESIGN.md context"],
+      "instructionAccess": "public",
+      "serviceCapabilities": [
+        { "id": "designmd-mcp", "required": false, "tier": "caller-based", "enforcement": "server" },
+        { "id": "hosted-url-extraction", "required": false, "tier": "caller-based", "enforcement": "server" }
+      ],
+      "agents": [
+        { "agent": "claude-code", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null },
+        { "agent": "codex", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null }
+      ],
+      "provenance": "skills/extract-design-context/provenance.json",
+      "fixtures": {
+        "positive": ["tests/fixtures/extract-design-context/positive.json"],
+        "negative": ["tests/fixtures/extract-design-context/negative.json"]
+      },
+      "dependencies": [],
+      "verifiedCommit": null,
+      "lastVerified": null
+    },
+    {
+      "id": "review-design-system-implementation",
+      "kind": "authored",
+      "version": "0.1.0",
+      "title": "Review a design-system implementation",
+      "description": "Audit code against DESIGN.md and component rules with concrete file-specific evidence.",
+      "category": "review",
+      "status": "experimental",
+      "entry": "skills/review-design-system-implementation/SKILL.md",
+      "triggers": ["review an interface against DESIGN.md", "audit design token adherence", "find design-system implementation defects"],
+      "instructionAccess": "public",
+      "serviceCapabilities": [],
+      "agents": [
+        { "agent": "claude-code", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null },
+        { "agent": "codex", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null }
+      ],
+      "provenance": "skills/review-design-system-implementation/provenance.json",
+      "fixtures": {
+        "positive": ["tests/fixtures/review-design-system-implementation/positive.json"],
+        "negative": ["tests/fixtures/review-design-system-implementation/negative.json"]
+      },
+      "dependencies": [],
+      "verifiedCommit": null,
+      "lastVerified": null
+    }
+  ],
+  "externalEntries": [
+    {
+      "id": "distinct",
+      "kind": "curated-link",
+      "title": "Distinct",
+      "description": "Separate deterministic anti-slop detection and design-judgment tooling maintained by Above the Fold Studio.",
+      "source": {
+        "repository": "https://github.com/Above-the-Fold-Studio/distinct",
+        "commit": "7138fae225bedada27808522dff6ab6a00f0036f"
+      },
+      "visibility": "private",
+      "availability": "unavailable",
+      "installable": false,
+      "publishedPackage": null,
+      "license": "Apache-2.0",
+      "evidence": null,
+      "lastVerified": "2026-08-24"
+    }
+  ]
 }

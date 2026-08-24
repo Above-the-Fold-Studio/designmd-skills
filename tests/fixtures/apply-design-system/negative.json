@@ -1,0 +1,11 @@
+{
+  "skillId": "apply-design-system",
+  "kind": "negative",
+  "cases": [
+    {
+      "request": "Audit this pull request against DESIGN.md and report defects without editing.",
+      "expectedRoute": "review-design-system-implementation",
+      "reason": "This is a review-only request."
+    }
+  ]
+}

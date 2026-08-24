@@ -1,0 +1,11 @@
+{
+  "skillId": "review-design-system-implementation",
+  "kind": "negative",
+  "cases": [
+    {
+      "request": "Give this build a formal DesignMD conformance grade before merge.",
+      "expectedRoute": "certify-interface",
+      "reason": "A formal grade belongs to certification."
+    }
+  ]
+}

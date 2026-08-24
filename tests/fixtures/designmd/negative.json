@@ -1,0 +1,11 @@
+{
+  "skillId": "designmd",
+  "kind": "negative",
+  "cases": [
+    {
+      "request": "Apply the Stripe DESIGN.md to the pricing page and run the existing tests.",
+      "expectedRoute": "apply-design-system",
+      "reason": "The implementation route is already determined."
+    }
+  ]
+}

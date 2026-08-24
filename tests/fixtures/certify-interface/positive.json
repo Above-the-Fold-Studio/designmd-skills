@@ -1,0 +1,11 @@
+{
+  "skillId": "certify-interface",
+  "kind": "positive",
+  "cases": [
+    {
+      "request": "Grade this pasted HTML against the Stripe catalog target and list the highest-impact remediation.",
+      "expectedRoute": "certify-interface",
+      "reason": "The user supplied a supported target/candidate pair and requested a grade."
+    }
+  ]
+}

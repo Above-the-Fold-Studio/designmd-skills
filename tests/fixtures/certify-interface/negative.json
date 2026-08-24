@@ -1,0 +1,11 @@
+{
+  "skillId": "certify-interface",
+  "kind": "negative",
+  "cases": [
+    {
+      "request": "Tell me whether this component uses the spacing tokens correctly; do not call external services.",
+      "expectedRoute": "review-design-system-implementation",
+      "reason": "A source review is sufficient and external certification is excluded."
+    }
+  ]
+}

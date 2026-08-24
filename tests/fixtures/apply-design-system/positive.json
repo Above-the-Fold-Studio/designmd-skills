@@ -1,0 +1,11 @@
+{
+  "skillId": "apply-design-system",
+  "kind": "positive",
+  "cases": [
+    {
+      "request": "Migrate this dashboard to the local DESIGN.md without replacing its component architecture.",
+      "expectedRoute": "apply-design-system",
+      "reason": "The user authorized a scoped design-system implementation."
+    }
+  ]
+}

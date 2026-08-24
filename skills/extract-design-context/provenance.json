@@ -1,0 +1,12 @@
+{
+  "$schema": "../../schema/provenance.schema.json",
+  "skillId": "extract-design-context",
+  "ownershipClass": "designmd-authored",
+  "authors": [{ "name": "DesignMD", "url": "https://designmd.co" }],
+  "license": "Apache-2.0",
+  "upstreamSources": [],
+  "adaptations": [],
+  "excludedAssets": [],
+  "notices": [],
+  "verifiedDate": "2026-08-24"
+}

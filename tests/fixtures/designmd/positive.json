@@ -1,0 +1,11 @@
+{
+  "skillId": "designmd",
+  "kind": "positive",
+  "cases": [
+    {
+      "request": "Which DesignMD workflow should I use to turn this catalog system into a reviewed implementation?",
+      "expectedRoute": "designmd",
+      "reason": "The request spans multiple stages and first needs bounded routing."
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "skillId": "extract-design-context",
+  "kind": "positive",
+  "cases": [
+    {
+      "request": "Find the real Linear design tokens in DesignMD and save traceable context before we build.",
+      "expectedRoute": "extract-design-context",
+      "reason": "The build lacks verified design context."
+    }
+  ]
+}

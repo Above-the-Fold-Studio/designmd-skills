@@ -4,7 +4,7 @@ DesignMD Skills is a public, provenance-first collection of compact workflows
 that help coding agents apply, review, extract, and certify interface design
 systems.
 
-The repository is in its governance and schema bootstrap phase. No installation
+The repository is in its initial-collection review phase. No installation
 command is published yet. A command becomes supported only after the relevant
 package has passed validation and an installation test in the named agent.
 
@@ -77,9 +77,10 @@ more.
 
 ## Repository validation
 
-The bootstrap registry is intentionally empty until the initial authored skills
-arrive through reviewed pull requests. Its schemas, template, and validation
-tooling are usable now:
+The registry contains an experimental root router plus four authored workflows:
+apply, review, extract, and certify. Claude Code and Codex remain `planned`, not
+`tested`; `distinct` is recorded as an unavailable curated entry. No package or
+installation command is supported yet. Validate the current source with:
 
 ```sh
 npm ci --ignore-scripts

@@ -1,0 +1,11 @@
+{
+  "skillId": "review-design-system-implementation",
+  "kind": "positive",
+  "cases": [
+    {
+      "request": "Review the settings page against DESIGN.md and give file-and-line defects only; do not edit.",
+      "expectedRoute": "review-design-system-implementation",
+      "reason": "The user wants an evidence-based implementation audit."
+    }
+  ]
+}
