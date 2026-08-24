@@ -6,7 +6,7 @@ Checked 2026-08-24 against source commit
 | Agent | Version | Scope | Result |
 | --- | --- | --- | --- |
 | Codex | 0.149.0 | Generated package, explicit root-router invocation, one positive route, one negative route | Pass |
-| Claude Code | 2.1.241 | Generated package and two capped root-router invocations | Blocked |
+| Claude Code | 2.1.241 | Generated package, explicit root-router invocation, one positive route, one negative route | Pass |
 
 ## Codex evidence
 
@@ -21,15 +21,18 @@ The machine-readable record is
 Only the root router is marked tested. The four specialty workflows remain
 planned until each is executed against a bounded fixture.
 
-## Claude Code blocker
+## Claude Code evidence
 
 The generated `.claude/skills/designmd/SKILL.md` was installed in a clean
-temporary directory. Two non-interactive, low-effort Haiku attempts were
-bounded by a spend cap and returned no model response. The second attempt was
-terminated after 60 seconds; the first stalled process was identified by its
-exact command line and terminated separately. The user's older Claude Code
-process was not touched.
+temporary directory. Passing probes used the existing Claude Code login with
+hooks disabled through a temporary settings file. No credential was changed,
+and no tools or files were used.
 
-This is not passing compatibility evidence. Claude Code remains `planned`.
-Retry only after the local provider/authentication path is known healthy, and
-retain the same positive and negative routing expectations.
+The positive probe selected `review-design-system-implementation`; the
+unrelated PostgreSQL probe returned `NONE`. Although `haiku` was requested,
+Claude Code reported `claude-sonnet-5` as the model actually used. The
+machine-readable record is
+[`evidence/designmd/claude-code-2.1.241.json`](../evidence/designmd/claude-code-2.1.241.json).
+
+Only the root router is marked tested. This does not validate the four specialty
+workflows, a live MCP call, or the invalid environment-provided credential.

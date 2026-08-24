@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "skillId": "designmd",
+  "agent": "claude-code",
+  "agentVersion": "2.1.241",
+  "commit": "7187b82b412169996c848b6e5dbe9a9cc79a48f1",
+  "verifiedDate": "2026-08-24",
+  "installation": "pass",
+  "positiveRouting": "pass",
+  "negativeRouting": "pass",
+  "execution": "pass",
+  "packageLayout": ".claude/skills/designmd/SKILL.md",
+  "probes": [
+    {
+      "kind": "positive",
+      "task": "Review a React checkout against DESIGN.md for implementation defects.",
+      "expected": "review-design-system-implementation",
+      "observed": "review-design-system-implementation",
+      "result": "pass"
+    },
+    {
+      "kind": "negative",
+      "task": "Optimize a PostgreSQL index for a slow reporting query.",
+      "expected": "NONE",
+      "observed": "NONE",
+      "result": "pass"
+    }
+  ],
+  "isolation": {
+    "requestedModel": "haiku",
+    "observedModel": "claude-sonnet-5",
+    "effort": "low",
+    "permissionMode": "plan",
+    "hooksDisabled": true,
+    "sessionPersistence": false,
+    "toolsUsed": []
+  },
+  "environment": {
+    "credentialMode": "existing-login",
+    "persistentCredentialChange": false
+  },
+  "limitations": [
+    "This evidence verifies installation, explicit router invocation, positive routing, negative routing, and execution of the router instructions.",
+    "It does not verify execution of the four specialty skills or a live DesignMD MCP call.",
+    "The requested haiku alias resolved to claude-sonnet-5 in both passing probes."
+  ]
+}
