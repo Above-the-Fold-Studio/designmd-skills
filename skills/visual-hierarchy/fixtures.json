@@ -1,0 +1,10 @@
+{
+  "positiveRouting": [
+    "Everything on this dashboard has equal weight. Clarify the reading order.",
+    "Make the primary action obvious without adding more decoration."
+  ],
+  "negativeRouting": [
+    "Choose an accessible error red for these tokens.",
+    "Document the product audience and brand direction before we redesign."
+  ]
+}

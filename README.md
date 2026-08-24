@@ -37,5 +37,14 @@ See [Product principles](docs/PRODUCT.md), [Quality policy](QUALITY.md), and
 ## Catalog
 
 <!-- BEGIN GENERATED CATALOG -->
-_No registered skills yet._
+### Foundations
+
+| Skill | Outcome | Status | Version |
+| --- | --- | --- | --- |
+| [Accessible Interface](skills/accessible-interface/DESIGN.md) | Design and review inclusive interfaces for keyboard, screen-reader, cognitive, and visual access. | experimental | 0.1.0 |
+| [Color and Contrast](skills/color-and-contrast/DESIGN.md) | Build purposeful interface color roles with legible contrast, clear states, and restrained emphasis. | experimental | 0.1.0 |
+| [Design Context](skills/design-context/DESIGN.md) | Capture the product, users, constraints, and design direction before making interface decisions. | experimental | 0.1.0 |
+| [Layout and Spacing](skills/layout-and-spacing/DESIGN.md) | Create coherent interface layouts and spacing systems that preserve relationships across screen sizes. | experimental | 0.1.0 |
+| [Typography](skills/typography/DESIGN.md) | Choose and tune interface typography for readable hierarchy, rhythm, density, and resilient content. | experimental | 0.1.0 |
+| [Visual Hierarchy](skills/visual-hierarchy/DESIGN.md) | Strengthen interface hierarchy so attention, reading order, and primary actions are immediately clear. | experimental | 0.1.0 |
 <!-- END GENERATED CATALOG -->

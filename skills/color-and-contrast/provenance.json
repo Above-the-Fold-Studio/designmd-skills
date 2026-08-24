@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schema/provenance.schema.json",
+  "class": "synthesized",
+  "license": "MIT",
+  "sources": [
+    {
+      "name": "Jakub Krehel Skills",
+      "url": "https://github.com/jakubkrehel/skills",
+      "license": "MIT",
+      "role": "inspiration",
+      "verifiedAt": "2026-08-24"
+    },
+    {
+      "name": "Web Content Accessibility Guidelines",
+      "url": "https://www.w3.org/WAI/WCAG22/",
+      "license": "W3C Software and Document License",
+      "role": "reference",
+      "verifiedAt": "2026-08-24"
+    }
+  ],
+  "notes": "Original color-system workflow informed by public design guidance and WCAG; no source text or assets copied."
+}

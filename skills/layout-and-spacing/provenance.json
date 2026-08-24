@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schema/provenance.schema.json",
+  "class": "synthesized",
+  "license": "MIT",
+  "sources": [
+    {
+      "name": "Jakub Krehel Skills",
+      "url": "https://github.com/jakubkrehel/skills",
+      "license": "MIT",
+      "role": "inspiration",
+      "verifiedAt": "2026-08-24"
+    },
+    {
+      "name": "Dembrandt Skills",
+      "url": "https://github.com/dembrandt/dembrandt-skills",
+      "license": "MIT",
+      "role": "inspiration",
+      "verifiedAt": "2026-08-24"
+    }
+  ],
+  "notes": "Original layout workflow synthesized from public design-skill patterns; no upstream prose or assets copied."
+}
