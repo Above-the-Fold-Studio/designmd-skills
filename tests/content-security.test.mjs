@@ -37,6 +37,17 @@ test("rejects executable and environment-shaped payloads", async (t) => {
   assert.ok(errors.every((error) => error.includes("only .md, .json, and .txt")));
 });
 
+test("rejects binary content renamed with an allowed extension", async (t) => {
+  const root = await fixture({
+    "skills/example/SKILL.md": "safe",
+    "skills/example/payload.md": Buffer.from([0x00, 0x61, 0x62, 0x63])
+  });
+  t.after(() => fs.rm(root, { recursive: true, force: true }));
+  const errors = await scanSkillContent(root);
+  assert.equal(errors.length, 1);
+  assert.match(errors[0], /binary or invalid UTF-8 content disguised as text/);
+});
+
 test("rejects credential and private-key signatures", async (t) => {
   const root = await fixture({
     "skills/example/github.txt": "github_pat_1234567890abcdefghijABCDEFGHIJ",
