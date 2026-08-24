@@ -71,6 +71,15 @@ test("official status requires both Codex and Claude Code evidence", () => {
   );
 });
 
+test("official stays unavailable even when agent names are present", () => {
+  const entry = {
+    ...valid,
+    status: "official",
+    testedAgents: ["Codex", "Claude Code"],
+  };
+  assert.match(validateEntry(entry).join("\n"), /unavailable until evidence/);
+});
+
 test("registry schema rejects unknown tier metadata", async () => {
   const schema = JSON.parse(
     await readFile(new URL("../schema/registry.schema.json", import.meta.url)),
@@ -93,6 +102,23 @@ test("registry schema enforces curated and official evidence", async () => {
   };
   assert.notDeepEqual(validateAgainstSchema(schema, curated), []);
   assert.notDeepEqual(validateAgainstSchema(schema, official), []);
+});
+
+test("registry schema rejects official with agent names but no evidence record", async () => {
+  const schema = JSON.parse(
+    await readFile(new URL("../schema/registry.schema.json", import.meta.url)),
+  );
+  const registry = {
+    version: 1,
+    skills: [
+      {
+        ...valid,
+        status: "official",
+        testedAgents: ["Codex", "Claude Code"],
+      },
+    ],
+  };
+  assert.notDeepEqual(validateAgainstSchema(schema, registry), []);
 });
 
 test("provenance schema rejects missing notes and unknown fields", async () => {

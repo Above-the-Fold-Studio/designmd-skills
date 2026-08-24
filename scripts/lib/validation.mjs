@@ -73,6 +73,11 @@ export function validateEntry(entry, seen = new Set()) {
     errors.push(`${entry.id}: invalid category`);
   }
   if (!STATUSES.has(entry.status)) errors.push(`${entry.id}: invalid status`);
+  if (entry.status !== "experimental") {
+    errors.push(
+      `${entry.id}: curated and official are unavailable until evidence validation ships`,
+    );
+  }
   if (!VERSION.test(entry.version ?? "")) {
     errors.push(`${entry.id}: version must be semantic x.y.z`);
   }
