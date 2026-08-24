@@ -42,7 +42,7 @@ test("rejects credential and private-key signatures", async (t) => {
     "skills/example/github.txt": "github_pat_1234567890abcdefghijABCDEFGHIJ",
     "skills/example/bearer.txt": "Authorization: Bearer abcdefghijklmnopqrstuvwxyz123456",
     "skills/example/dsa.txt": "-----BEGIN DSA PRIVATE KEY-----",
-    "skills/example/pgp.txt": "-----BEGIN PGP PRIVATE KEY-----"
+    "skills/example/pgp.txt": "-----BEGIN PGP PRIVATE KEY BLOCK-----"
   });
   t.after(() => fs.rm(root, { recursive: true, force: true }));
   const errors = await scanSkillContent(root);
