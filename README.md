@@ -33,3 +33,9 @@ behavior evidence, provenance, and release status must agree.
 
 See [Product principles](docs/PRODUCT.md), [Quality policy](QUALITY.md), and
 [Contributing](CONTRIBUTING.md).
+
+## Catalog
+
+<!-- BEGIN GENERATED CATALOG -->
+_No registered skills yet._
+<!-- END GENERATED CATALOG -->

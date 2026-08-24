@@ -1,0 +1,7 @@
+{
+  "$schema": "../../../schema/provenance.schema.json",
+  "class": "original",
+  "license": "MIT",
+  "sources": [],
+  "notes": "Replace this note with a specific authorship or synthesis statement."
+}
