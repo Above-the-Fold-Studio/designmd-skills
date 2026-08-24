@@ -34,6 +34,29 @@ behavior evidence, provenance, and release status must agree.
 See [Product principles](docs/PRODUCT.md), [Quality policy](QUALITY.md), and
 [Contributing](CONTRIBUTING.md).
 
+## Install and contribute
+
+The repository uses the existing open Agent Skills ecosystem rather than a
+custom installer. Inspect the catalog with:
+
+```sh
+npx skills add Above-the-Fold-Studio/designmd-skills --list
+```
+
+Then install only the skill or skills you want. See [Installation](docs/INSTALL.md)
+for examples and [Compatibility](docs/COMPATIBILITY.md) for the difference
+between installer support and tested agent behavior.
+
+New skills should start from a concrete design problem and preserve a narrow,
+portable scope. See [Growth and contribution loop](docs/GROWTH.md) and use the
+skill-proposal issue form before adding a materially new workflow.
+
+Bootstrap skill packages are restricted to inert `.md`, `.json`, and `.txt`
+content. Repository checks reject symlink traversal, executable/binary payloads,
+and known credential/private-key signatures inside `skills/`.
+
+See [Versioning](VERSIONS.md) for per-skill and compatibility evidence rules.
+
 ## Catalog
 
 <!-- BEGIN GENERATED CATALOG -->
