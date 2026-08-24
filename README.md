@@ -89,6 +89,11 @@ npm run check
 
 This is repository validation, not a supported skill-installation command.
 
+Provider-specific packages are generated from the canonical registry rather
+than maintained by hand. The current generator has structural tests for Claude
+Code and Codex, but neither agent is marked tested and no public installation
+command is supported. See [the packaging contract](docs/provider-packaging.md).
+
 ## Contributing
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before proposing a skill or changing a

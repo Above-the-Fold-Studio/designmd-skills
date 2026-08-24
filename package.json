@@ -11,6 +11,7 @@
     "check": "npm run validate && npm run check:links && npm run scan:secrets && npm test",
     "validate": "node scripts/validate-registry.mjs",
     "check:links": "node scripts/check-links.mjs",
+    "package:skills": "node scripts/package-agent-skills.mjs",
     "scan:secrets": "node scripts/scan-secrets.mjs",
     "test": "node --test"
   },
