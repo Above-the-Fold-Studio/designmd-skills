@@ -10,6 +10,8 @@ export const AGENT_LAYOUTS = Object.freeze({
   codex: path.join(".agents", "skills"),
 });
 
+const RELEASE_ELIGIBLE = new Set(["designmd-authored", "adapted-with-attribution"]);
+
 function assertEmptyOrMissing(directory) {
   if (!fs.existsSync(directory)) return;
   const stat = fs.lstatSync(directory);
@@ -62,10 +64,24 @@ export function packageAgentSkills({ root, output, agent }) {
   validateSource(repositoryRoot);
 
   const registry = JSON.parse(fs.readFileSync(path.join(repositoryRoot, "registry.json"), "utf8"));
-  const authoredSkills = registry.skills.filter((skill) => skill.kind === "authored");
+  const authoredSkills = registry.skills
+    .filter((skill) => skill.kind === "authored")
+    .map((skill) => ({
+      skill,
+      provenance: JSON.parse(fs.readFileSync(path.join(repositoryRoot, skill.provenance), "utf8")),
+    }));
+  const includedSkills = authoredSkills.filter(
+    ({ skill, provenance }) => skill.status !== "held" && RELEASE_ELIGIBLE.has(provenance.ownershipClass),
+  );
+  const excludedSkills = authoredSkills
+    .filter(({ skill, provenance }) => skill.status === "held" || !RELEASE_ELIGIBLE.has(provenance.ownershipClass))
+    .map(({ skill, provenance }) => ({
+      id: skill.id,
+      reason: skill.status === "held" ? "held" : `ownership:${provenance.ownershipClass}`,
+    }));
   const copied = [];
 
-  for (const skill of authoredSkills) {
+  for (const { skill } of includedSkills) {
     const sourceDirectory = path.join(repositoryRoot, path.dirname(skill.entry));
     const { files, symlinks } = collectRepositoryFiles(sourceDirectory);
     if (symlinks.length > 0) {
@@ -85,7 +101,8 @@ export function packageAgentSkills({ root, output, agent }) {
     schemaVersion: 1,
     agent,
     source: "designmd-skills",
-    skills: authoredSkills.map(({ id, version }) => ({ id, version })),
+    skills: includedSkills.map(({ skill: { id, version } }) => ({ id, version })),
+    excludedSkills,
     files: copied.sort(),
   };
   fs.mkdirSync(outputRoot, { recursive: true });

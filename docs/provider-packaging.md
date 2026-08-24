@@ -9,10 +9,13 @@ discovery layout documented by each supported agent:
 | Claude Code | `.claude/skills/` | structural packaging only |
 | Codex | `.agents/skills/` | structural packaging only |
 
-The packager includes only authored registry entries. Unavailable curated links
-such as `distinct` are never copied. It validates the repository first, rejects
-symlinked source files, writes only to a missing or empty directory outside the
-repository, and refuses to overwrite existing content.
+The packager includes only non-held authored entries whose provenance is
+release-eligible (`designmd-authored` or `adapted-with-attribution`). Held or
+restricted entries are listed in the manifest but never copied. Unavailable
+curated links such as `distinct` are never copied. The packager validates the
+repository first, rejects symlinked source files, writes only to a missing or
+empty directory outside the repository, and refuses to overwrite existing
+content.
 
 For maintainers, the packaging probe is:
 

@@ -24,6 +24,18 @@ function withTemporaryDirectory(run) {
   }
 }
 
+function copyRepositoryFixture(destination) {
+  fs.cpSync(root, destination, {
+    recursive: true,
+    filter(source) {
+      const relative = path.relative(root, source);
+      return ![".git", "node_modules"].some(
+        (ignored) => relative === ignored || relative.startsWith(`${ignored}${path.sep}`),
+      );
+    },
+  });
+}
+
 for (const [agent, skillRoot] of Object.entries(AGENT_LAYOUTS)) {
   test(`${agent} package uses its documented discovery layout`, () =>
     withTemporaryDirectory((temporary) => {
@@ -55,6 +67,29 @@ test("packaging refuses to overwrite a populated output directory", () =>
       /must be empty/,
     );
     assert.equal(fs.readFileSync(path.join(temporary, "keep.txt"), "utf8"), "keep\n");
+  }));
+
+test("packaging excludes held, redistribution-prohibited authored skills", () =>
+  withTemporaryDirectory((temporary) => {
+    const fixture = path.join(temporary, "repository");
+    const output = path.join(temporary, "package");
+    copyRepositoryFixture(fixture);
+
+    const registryPath = path.join(fixture, "registry.json");
+    const registry = JSON.parse(fs.readFileSync(registryPath, "utf8"));
+    const heldSkill = registry.skills.find(({ id }) => id === "apply-design-system");
+    heldSkill.status = "held";
+    fs.writeFileSync(registryPath, `${JSON.stringify(registry, null, 2)}\n`);
+
+    const provenancePath = path.join(fixture, heldSkill.provenance);
+    const provenance = JSON.parse(fs.readFileSync(provenancePath, "utf8"));
+    provenance.ownershipClass = "redistribution-prohibited";
+    fs.writeFileSync(provenancePath, `${JSON.stringify(provenance, null, 2)}\n`);
+
+    const manifest = packageAgentSkills({ root: fixture, output, agent: "codex" });
+    assert.equal(manifest.skills.some(({ id }) => id === heldSkill.id), false);
+    assert.deepEqual(manifest.excludedSkills, [{ id: heldSkill.id, reason: "held" }]);
+    assert.equal(fs.existsSync(path.join(output, ".agents", "skills", heldSkill.id)), false);
   }));
 
 test("packaging rejects a symlinked output directory", () =>
