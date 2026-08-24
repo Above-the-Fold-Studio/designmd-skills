@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "skillId": "apply-design-system",
+  "agent": "codex",
+  "agentVersion": "0.149.0",
+  "commit": "7187b82b412169996c848b6e5dbe9a9cc79a48f1",
+  "verifiedDate": "2026-08-24",
+  "installation": "pass",
+  "positiveRouting": "pass",
+  "negativeRouting": "pass",
+  "execution": "pass",
+  "packageLayout": ".agents/skills/apply-design-system/SKILL.md",
+  "probes": [
+    {
+      "kind": "positive",
+      "task": "Plan bounded corrections for a component whose color, spacing, and radius conflict with supplied DESIGN.md tokens.",
+      "expected": "Map each concrete mismatch to the supplied token without editing files.",
+      "observed": "Mapped the component color, gap, and radius to the supplied DESIGN.md values in a file-specific implementation plan.",
+      "result": "pass"
+    },
+    {
+      "kind": "negative",
+      "task": "Optimize a PostgreSQL index.",
+      "expected": "Declare the task outside this skill's scope.",
+      "observed": "Declared PostgreSQL indexing not applicable.",
+      "result": "pass"
+    }
+  ],
+  "isolation": {
+    "model": "gpt-5.6-luna",
+    "sandbox": "read-only",
+    "ephemeral": true,
+    "userConfig": "ignored",
+    "toolsUsed": []
+  },
+  "limitations": [
+    "This evidence uses an inline fixture and verifies instruction execution without repository file access or edits.",
+    "It does not verify a live DesignMD MCP call."
+  ]
+}

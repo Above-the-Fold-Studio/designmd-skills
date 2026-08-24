@@ -5,7 +5,7 @@ Checked 2026-08-24 against source commit
 
 | Agent | Version | Scope | Result |
 | --- | --- | --- | --- |
-| Codex | 0.149.0 | Generated package, explicit root-router invocation, one positive route, one negative route | Pass |
+| Codex | 0.149.0 | Generated package; root router and four specialty workflows with positive and negative controls | Pass |
 | Claude Code | 2.1.241 | Generated package, explicit root-router invocation, one positive route, one negative route | Pass |
 
 ## Codex evidence
@@ -16,10 +16,17 @@ temporary Git repository. A read-only, ephemeral Luna run selected
 A second run returned `NONE` for an unrelated PostgreSQL indexing task. No
 tools were called and no files were changed.
 
-The machine-readable record is
+The root-router record is
 [`evidence/designmd/codex-0.149.0.json`](../evidence/designmd/codex-0.149.0.json).
-Only the root router is marked tested. The four specialty workflows remain
-planned until each is executed against a bounded fixture.
+The four specialty workflows also passed bounded positive and negative fixtures:
+
+- [apply-design-system](../evidence/apply-design-system/codex-0.149.0.json)
+- [certify-interface](../evidence/certify-interface/codex-0.149.0.json)
+- [extract-design-context](../evidence/extract-design-context/codex-0.149.0.json)
+- [review-design-system-implementation](../evidence/review-design-system-implementation/codex-0.149.0.json)
+
+No specialty probe used repository files or tools. The MCP-dependent workflows
+were evaluated only for safe behavior when live MCP capability was unavailable.
 
 ## Claude Code evidence
 
@@ -34,5 +41,5 @@ Claude Code reported `claude-sonnet-5` as the model actually used. The
 machine-readable record is
 [`evidence/designmd/claude-code-2.1.241.json`](../evidence/designmd/claude-code-2.1.241.json).
 
-Only the root router is marked tested. This does not validate the four specialty
-workflows, a live MCP call, or the invalid environment-provided credential.
+Only the root router is marked tested for Claude Code. This does not validate
+the four specialty workflows or a live MCP call.

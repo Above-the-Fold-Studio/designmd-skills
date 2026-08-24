@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "skillId": "certify-interface",
+  "agent": "codex",
+  "agentVersion": "0.149.0",
+  "commit": "7187b82b412169996c848b6e5dbe9a9cc79a48f1",
+  "verifiedDate": "2026-08-24",
+  "installation": "pass",
+  "positiveRouting": "pass",
+  "negativeRouting": "pass",
+  "execution": "pass",
+  "packageLayout": ".agents/skills/certify-interface/SKILL.md",
+  "probes": [
+    {
+      "kind": "positive",
+      "task": "Certify an inline candidate against a named target when the required MCP capability is unavailable.",
+      "expected": "Name the required modes, avoid inventing a grade, and preserve inputs for a later MCP-backed run.",
+      "observed": "Named the required modes, made no certificate or grade claim, and preserved the target/candidate pair for a later MCP run.",
+      "result": "pass"
+    },
+    {
+      "kind": "negative",
+      "task": "Copyedit generic marketing text.",
+      "expected": "Declare the task outside this skill's scope.",
+      "observed": "Declared generic copyediting not applicable.",
+      "result": "pass"
+    }
+  ],
+  "isolation": {
+    "model": "gpt-5.6-luna",
+    "sandbox": "read-only",
+    "ephemeral": true,
+    "userConfig": "ignored",
+    "toolsUsed": []
+  },
+  "limitations": [
+    "This evidence uses an inline fixture and verifies safe behavior when the required MCP capability is unavailable.",
+    "It does not verify a live certification request or issue a certificate."
+  ]
+}

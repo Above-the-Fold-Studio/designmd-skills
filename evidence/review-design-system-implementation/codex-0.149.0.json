@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "skillId": "review-design-system-implementation",
+  "agent": "codex",
+  "agentVersion": "0.149.0",
+  "commit": "7187b82b412169996c848b6e5dbe9a9cc79a48f1",
+  "verifiedDate": "2026-08-24",
+  "installation": "pass",
+  "positiveRouting": "pass",
+  "negativeRouting": "pass",
+  "execution": "pass",
+  "packageLayout": ".agents/skills/review-design-system-implementation/SKILL.md",
+  "probes": [
+    {
+      "kind": "positive",
+      "task": "Review supplied component and stylesheet excerpts against DESIGN.md color and keyboard-focus requirements.",
+      "expected": "Report concrete defects with locations, violated rules, triggers, consequences, and evidence gaps.",
+      "observed": "Reported the hard-coded color and missing replacement focus treatment as two blocking, location-specific defects with the required evidence fields.",
+      "result": "pass"
+    },
+    {
+      "kind": "negative",
+      "task": "Rewrite a marketing tagline.",
+      "expected": "Declare the task outside this skill's scope.",
+      "observed": "Declared marketing tagline work not applicable.",
+      "result": "pass"
+    }
+  ],
+  "isolation": {
+    "model": "gpt-5.6-luna",
+    "sandbox": "read-only",
+    "ephemeral": true,
+    "userConfig": "ignored",
+    "toolsUsed": []
+  },
+  "limitations": [
+    "This evidence uses inline excerpts and verifies review behavior without repository file access or tools.",
+    "It does not verify a full repository audit."
+  ]
+}

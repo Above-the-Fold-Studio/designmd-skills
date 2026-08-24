@@ -18,7 +18,13 @@
       ],
       "agents": [
         { "agent": "claude-code", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null },
-        { "agent": "codex", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null }
+        {
+          "agent": "codex",
+          "status": "tested",
+          "verifiedVersion": "0.149.0",
+          "verifiedCommit": "7187b82b412169996c848b6e5dbe9a9cc79a48f1",
+          "evidence": "evidence/apply-design-system/codex-0.149.0.json"
+        }
       ],
       "provenance": "skills/apply-design-system/provenance.json",
       "fixtures": {
@@ -45,7 +51,13 @@
       ],
       "agents": [
         { "agent": "claude-code", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null },
-        { "agent": "codex", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null }
+        {
+          "agent": "codex",
+          "status": "tested",
+          "verifiedVersion": "0.149.0",
+          "verifiedCommit": "7187b82b412169996c848b6e5dbe9a9cc79a48f1",
+          "evidence": "evidence/certify-interface/codex-0.149.0.json"
+        }
       ],
       "provenance": "skills/certify-interface/provenance.json",
       "fixtures": {
@@ -112,7 +124,13 @@
       ],
       "agents": [
         { "agent": "claude-code", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null },
-        { "agent": "codex", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null }
+        {
+          "agent": "codex",
+          "status": "tested",
+          "verifiedVersion": "0.149.0",
+          "verifiedCommit": "7187b82b412169996c848b6e5dbe9a9cc79a48f1",
+          "evidence": "evidence/extract-design-context/codex-0.149.0.json"
+        }
       ],
       "provenance": "skills/extract-design-context/provenance.json",
       "fixtures": {
@@ -137,7 +155,13 @@
       "serviceCapabilities": [],
       "agents": [
         { "agent": "claude-code", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null },
-        { "agent": "codex", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null }
+        {
+          "agent": "codex",
+          "status": "tested",
+          "verifiedVersion": "0.149.0",
+          "verifiedCommit": "7187b82b412169996c848b6e5dbe9a9cc79a48f1",
+          "evidence": "evidence/review-design-system-implementation/codex-0.149.0.json"
+        }
       ],
       "provenance": "skills/review-design-system-implementation/provenance.json",
       "fixtures": {

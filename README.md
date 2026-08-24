@@ -78,9 +78,11 @@ more.
 ## Repository validation
 
 The registry contains an experimental root router plus four authored workflows:
-apply, review, extract, and certify. Claude Code and Codex remain `planned`, not
-`tested`; `distinct` is recorded as an unavailable curated entry. No package or
-installation command is supported yet. Validate the current source with:
+apply, review, extract, and certify. The root router is tested in Claude Code
+and Codex; the four specialty workflows are tested in Codex and remain
+`planned` in Claude Code. `distinct` is recorded as an unavailable curated
+entry. No package or installation command is supported yet. Validate the
+current source with:
 
 ```sh
 npm ci --ignore-scripts
@@ -90,9 +92,9 @@ npm run check
 This is repository validation, not a supported skill-installation command.
 
 Provider-specific packages are generated from the canonical registry rather
-than maintained by hand. Codex 0.149.0 and Claude Code 2.1.241 have
-tested evidence for the root router; the four specialty workflows remain
-planned. No public installation command is supported. See the
+than maintained by hand. Codex 0.149.0 has tested evidence for the router and
+four specialty workflows; Claude Code 2.1.241 has tested evidence for the router.
+No public installation command is supported. See the
 [packaging contract](docs/provider-packaging.md) and
 [compatibility status](docs/compatibility-status.md).
 

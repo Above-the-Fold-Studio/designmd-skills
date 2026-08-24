@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "skillId": "extract-design-context",
+  "agent": "codex",
+  "agentVersion": "0.149.0",
+  "commit": "7187b82b412169996c848b6e5dbe9a9cc79a48f1",
+  "verifiedDate": "2026-08-24",
+  "installation": "pass",
+  "positiveRouting": "pass",
+  "negativeRouting": "pass",
+  "execution": "pass",
+  "packageLayout": ".agents/skills/extract-design-context/SKILL.md",
+  "probes": [
+    {
+      "kind": "positive",
+      "task": "Extract design context from authorized inline CSS containing color, spacing, radius, and typography values.",
+      "expected": "Preserve provenance, separate measured values from inference, and identify evidence gaps.",
+      "observed": "Preserved the supplied source, reported measured tokens separately from inference, and named remaining evidence gaps.",
+      "result": "pass"
+    },
+    {
+      "kind": "negative",
+      "task": "Invent extracted design context for a new product with no source evidence.",
+      "expected": "Refuse to fabricate extraction and route to a constraints or generation workflow.",
+      "observed": "Did not fabricate extraction and routed the task to constraints or generation instead.",
+      "result": "pass"
+    }
+  ],
+  "isolation": {
+    "model": "gpt-5.6-luna",
+    "sandbox": "read-only",
+    "ephemeral": true,
+    "userConfig": "ignored",
+    "toolsUsed": []
+  },
+  "limitations": [
+    "This evidence uses authorized inline source material without repository files or tools.",
+    "It does not verify live URL extraction or a live DesignMD MCP call."
+  ]
+}

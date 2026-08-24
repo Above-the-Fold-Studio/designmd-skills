@@ -6,8 +6,8 @@ discovery layout documented by each supported agent:
 
 | Agent | Generated skill root | Evidence status |
 | --- | --- | --- |
-| Claude Code | `.claude/skills/` | structural packaging only |
-| Codex | `.agents/skills/` | structural packaging only |
+| Claude Code | `.claude/skills/` | package structure and root router tested; specialties planned |
+| Codex | `.agents/skills/` | package structure, root router, and four specialties tested |
 
 The packager includes only non-held authored entries whose provenance is
 release-eligible (`designmd-authored` or `adapted-with-attribution`). Held or
