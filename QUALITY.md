@@ -13,6 +13,10 @@ Quality status describes evidence, not popularity.
 New skills begin as experimental. Status can move backward when a dependency,
 specification, or observed behavior changes.
 
+During repository bootstrap, validation accepts only experimental. Curated and
+official remain unavailable until behavior evidence, installation evidence,
+independent review, and maintainer approval have machine-checked records.
+
 ## Required evidence
 
 Every release-eligible skill needs a narrow purpose, clear use boundaries, a

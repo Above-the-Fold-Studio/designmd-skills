@@ -1,0 +1,8 @@
+{
+  "positiveRouting": [
+    "Replace with a realistic request that should activate this skill."
+  ],
+  "negativeRouting": [
+    "Replace with a nearby request that should not activate this skill."
+  ]
+}
