@@ -72,7 +72,13 @@
       ],
       "agents": [
         { "agent": "claude-code", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null },
-        { "agent": "codex", "status": "planned", "verifiedVersion": null, "verifiedCommit": null, "evidence": null }
+        {
+          "agent": "codex",
+          "status": "tested",
+          "verifiedVersion": "0.149.0",
+          "verifiedCommit": "7187b82b412169996c848b6e5dbe9a9cc79a48f1",
+          "evidence": "evidence/designmd/codex-0.149.0.json"
+        }
       ],
       "provenance": "skills/designmd/provenance.json",
       "fixtures": {
