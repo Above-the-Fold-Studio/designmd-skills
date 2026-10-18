@@ -63,6 +63,24 @@ test("rejects credential and private-key signatures", async (t) => {
   assert.equal(errors.filter((error) => error.includes("private key")).length, 2);
 });
 
+test("rejects plain and encrypted PKCS8 private-key headers", async (t) => {
+  const root = await fixture({
+    "skills/example/SKILL.md": "---\nname: example\ndescription: Safe example\n---\nNever paste a private key into a skill.",
+    "skills/example/rsa.txt": "-----BEGIN RSA PRIVATE KEY-----",
+    "skills/example/pkcs8.txt": "-----BEGIN PRIVATE KEY-----",
+    "skills/example/pkcs8-encrypted.txt": "-----BEGIN ENCRYPTED PRIVATE KEY-----"
+  });
+  t.after(() => fs.rm(root, { recursive: true, force: true }));
+  const errors = await scanSkillContent(root);
+  assert.equal(errors.length, 3);
+  for (const file of ["rsa.txt", "pkcs8.txt", "pkcs8-encrypted.txt"]) {
+    assert.ok(
+      errors.some((error) => error.includes(file) && error.includes("credential-shaped content (private key)")),
+      `expected a private key finding for ${file}`
+    );
+  }
+});
+
 test("rejects unquoted credential assignments", async (t) => {
   const root = await fixture({
     "skills/example/SKILL.md": "api_key=abcdefghijklmnopqrstuvwxyz123456"
