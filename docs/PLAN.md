@@ -198,6 +198,39 @@ Growth mechanisms:
 - Style packs, surface-specific packs and framework integrations are backlog categories, not v1 core.
 - Nothing merges to `main`, and no DesignMD/Vercel deployment occurs, without separate owner instruction.
 
+### v2 candidate skills (owner priority, 2026-08-25)
+
+Confirmed priority order for the next surface-specific pack, once v1's 12 skills
+have real behavioral evidence (see acceptance criteria above), not before:
+
+1. **App / dashboard / product UI** — definite next pack. This is the surface
+   v1 explicitly reserved (see PR #9 rules above: "reserve landing pages,
+   dashboards, onboarding, navigation, ecommerce, mobile and style packs until
+   v1 quality is proven"). Candidate skill names, to be scoped properly at
+   build time rather than treated as final:
+   - `dashboard-density` (data-dense layout, table/card tradeoffs, information
+     scent in packed UI)
+   - `data-table-design` (sorting, filtering, pagination, bulk actions, empty
+     states specific to tabular data)
+   - `onboarding-and-activation` (progressive disclosure, first-run experience,
+     activation moments, distinct from the general `loading-empty-error-states`
+     workflow skill already in v1)
+   - `navigation-and-ia-product` (product nav/IA as distinct from marketing nav,
+     which `layout-and-spacing` and `visual-hierarchy` already cover for
+     marketing surfaces)
+   - `notifications-and-alerts` (toast/banner/inline hierarchy, urgency levels,
+     dismissal patterns)
+   - `settings-and-preferences` (form-heavy, low-frequency-use surfaces with
+     their own density and grouping rules)
+2. **Email and ads** — lower priority than the app/dashboard/product pack, not
+   dropped, just sequenced after. Revisit once the product-UI pack has shipped
+   and has its own behavioral evidence.
+
+This list is a starting point for scoping, not a commitment to exact skill
+boundaries or names. Follow the same PR #8/#9 shape (SKILL.md, DESIGN.md,
+provenance.json, fixtures.json) and the same reuse-rules attribution
+discipline as the current 12 skills when this pack is actually built.
+
 ## Change control
 
 When implementation diverges from this plan, update this document in the same PR and explain why. Do not mark an acceptance item complete based on intention or installer support alone; use evidence appropriate to the claim.
