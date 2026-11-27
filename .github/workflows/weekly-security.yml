@@ -1,0 +1,115 @@
+name: Weekly security scan
+
+# Trivy scans this repo's code, dependencies, secrets and Dockerfiles/IaC.
+# Nuclei (only if NUCLEI_TARGETS is set) checks this repo's own deployed
+# sites for known issues, with intrusive/DoS/fuzzing templates excluded.
+# Findings open or update one issue labelled "security-scan".
+
+on:
+  schedule:
+    - cron: "17 9 * * 1" # Mondays 09:17 UTC
+  workflow_dispatch:
+  pull_request: # also runs when this workflow file itself changes
+    paths: [.github/workflows/weekly-security.yml]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: weekly-security
+  cancel-in-progress: true
+
+env:
+  TRIVY_VERSION: v0.76.2
+  NUCLEI_VERSION: 3.11.1
+  # Space-separated; only sites this repo deploys. Empty = skip Nuclei.
+  NUCLEI_TARGETS: ""
+
+jobs:
+  scan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: aquasecurity/setup-trivy@81e514348e19b6112ce2a7e3ecbafe19c1e1f567 # v0.3.1
+        with:
+          version: ${{ env.TRIVY_VERSION }}
+
+      - name: Trivy (vulnerabilities, secrets, misconfigurations)
+        run: |
+          trivy fs . \
+            --scanners vuln,secret,misconfig \
+            --severity HIGH,CRITICAL \
+            --ignore-unfixed \
+            --skip-dirs node_modules,.next,dist,build \
+            --format json --output trivy.json --quiet
+          trivy convert --format table --output trivy.txt trivy.json
+          jq '[.Results[]? | ((.Vulnerabilities // []) + (.Secrets // []) + (.Misconfigurations // []))[]] | length' trivy.json > trivy.count
+          echo "Trivy findings: $(cat trivy.count)"
+
+      - name: Install Nuclei (checksum verified)
+        if: env.NUCLEI_TARGETS != ''
+        run: |
+          base="https://github.com/projectdiscovery/nuclei/releases/download/v${NUCLEI_VERSION}"
+          zip="nuclei_${NUCLEI_VERSION}_linux_amd64.zip"
+          curl -fsSLO "$base/$zip"
+          curl -fsSL "$base/nuclei_${NUCLEI_VERSION}_checksums.txt" | grep " $zip\$" | sha256sum -c -
+          unzip -q "$zip" nuclei -d "$RUNNER_TEMP/nuclei"
+          echo "$RUNNER_TEMP/nuclei" >> "$GITHUB_PATH"
+
+      - name: Nuclei (own deployed sites only)
+        if: env.NUCLEI_TARGETS != ''
+        run: |
+          printf '%s\n' $NUCLEI_TARGETS | sed 's#^#https://#' > targets.txt
+          nuclei -update-templates -silent || true
+          # Focused set: exposed files/panels, misconfigs, known CVEs, takeovers,
+          # leaked tokens. HTTP/SSL only; nothing intrusive, fuzzing or DoS.
+          nuclei -l targets.txt \
+            -type http,ssl \
+            -tags exposure,misconfig,config,cve,takeover,token,panel,ssl \
+            -severity medium,high,critical \
+            -exclude-tags dos,fuzz,intrusive,bruteforce,default-login \
+            -rate-limit 50 -concurrency 25 -bulk-size 25 \
+            -timeout 5 -retries 0 -max-host-error 15 \
+            -disable-update-check -no-color -stats -stats-interval 60 \
+            -jsonl -o nuclei.jsonl || true
+          touch nuclei.jsonl
+          wc -l < nuclei.jsonl | tr -d ' ' > nuclei.count
+          echo "Nuclei findings: $(cat nuclei.count)"
+
+      - name: Report findings in an issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          t=$(cat trivy.count 2>/dev/null || echo 0); n=$(cat nuclei.count 2>/dev/null || echo 0)
+          if [ "$t" = 0 ] && [ "$n" = 0 ]; then echo "No findings."; exit 0; fi
+          {
+            echo "## Weekly security scan — $(date -u +%Y-%m-%d)"
+            echo
+            echo "Trivy: **$t** HIGH/CRITICAL · Nuclei: **$n** medium+ · [run log]($RUN_URL)"
+            if [ "$t" != 0 ]; then
+              echo; echo "<details><summary>Trivy</summary>"; echo; echo '```'
+              head -c 50000 trivy.txt; echo '```'; echo "</details>"
+            fi
+            if [ "$n" != 0 ]; then
+              echo; echo "<details><summary>Nuclei</summary>"; echo
+              jq -r '"- **\(.info.severity)** \(.info.name) — `\(.["matched-at"] // .host)` (\(.["template-id"]))"' nuclei.jsonl | head -200
+              echo "</details>"
+            fi
+          } > body.md
+          gh label create security-scan --color B60205 --description "Weekly security scan findings" 2>/dev/null || true
+          num=$(gh issue list --label security-scan --state all --limit 1 --json number --jq '.[0].number // empty')
+          if [ -n "$num" ]; then
+            gh issue reopen "$num" 2>/dev/null || true
+            gh issue comment "$num" --body-file body.md
+          else
+            gh issue create --title "Weekly security scan findings" --label security-scan --body-file body.md
+          fi
